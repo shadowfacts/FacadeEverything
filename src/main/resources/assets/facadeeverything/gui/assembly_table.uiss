@@ -1,0 +1,17 @@
+label {
+	text-color: #404040
+}
+
+#table {
+	vertical-layout: top
+	horizontal-layout: right
+	margin-top: 4
+	margin-right: 4
+}
+
+#inventory {
+	horizontal-layout: right
+	margin-right: 4
+	margin-bottom: 11
+}
+

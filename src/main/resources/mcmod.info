@@ -1,0 +1,16 @@
+[
+	{
+	  "modid": "facadeeverything",
+	  "name": "Facade Everything",
+	  "description": "Apply facades to almost all blocks.",
+	  "version": "${version}",
+	  "mcversion": "${mcversion}",
+	  "url": "http://github.com/shadowfacts/FacadeEverything",
+	  "updateUrl": "",
+	  "authorList": ["Shadowfacts"],
+	  "credits": "",
+	  "logoFile": "",
+	  "screenshots": [],
+	  "dependencies": []
+	}
+]
