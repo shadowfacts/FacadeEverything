@@ -20,8 +20,7 @@ class TileEntityFacade: BaseTileEntity() {
 
 	override fun onLoad() {
 		if (world.isRemote) {
-
-//			FacadeEverything.network.sendToServer(PacketRequestUpdate(this))
+			FacadeEverything.network.sendToServer(PacketRequestUpdate(this))
 		}
 	}
 
