@@ -6,7 +6,6 @@ import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
 import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.EnumFacing
@@ -37,7 +36,6 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade") {
 
 	init {
 		unlocalizedName = registryName.toString()
-		defaultState = (blockState.baseState as IExtendedBlockState).withProperty(BASE, Blocks.STONE.defaultState)
 	}
 
 	override fun createBlockState(): BlockStateContainer {
