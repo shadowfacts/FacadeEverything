@@ -3,9 +3,13 @@ package net.shadowfacts.facadeeverything.util
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
 import net.minecraft.init.Blocks
+import net.minecraft.item.ItemBlock
+import net.minecraft.item.ItemBlockSpecial
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
+import net.minecraftforge.common.util.Constants
+import net.shadowfacts.facadeeverything.item.ItemFacade
 import java.util.*
 
 /**
@@ -74,3 +78,25 @@ val ItemStack.sides: Map<EnumFacing, IBlockState?>
 		}
 		return map
 	}
+
+val ItemStack.isItemBlock: Boolean
+	get() = item is ItemBlock || item is ItemBlockSpecial
+
+fun ItemStack.getState(): IBlockState? {
+	var block: Block? = null
+	if (item is ItemBlock) {
+		block = (item as ItemBlock).block
+	} else if (item is ItemBlockSpecial) {
+		block = (item as ItemBlockSpecial).block
+	}
+
+	return block?.getStateFromMeta(metadata)
+}
+
+fun ItemStack.getFacadeState(): IBlockState? {
+	if (tagCompound?.hasKey(ItemFacade.TAG_FACADE, Constants.NBT.TAG_INT) ?: false) {
+		return Block.getStateById(tagCompound!!.getInteger(ItemFacade.TAG_FACADE))
+	} else {
+		return null
+	}
+}

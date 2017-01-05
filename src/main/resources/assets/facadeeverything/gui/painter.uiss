@@ -1,15 +1,13 @@
 @include facadeeverything:base
 
-#table {
+#painter {
 	vertical-layout: top
-	horizontal-layout: right
+	horizontal-layout: center
 	margin-top: 5
-	margin-right: 4
 }
 
 #inventory {
-	horizontal-layout: right
-	margin-right: 4
+	horizontal-layout: left
+	margin-left: 7
 	margin-bottom: 11
 }
-

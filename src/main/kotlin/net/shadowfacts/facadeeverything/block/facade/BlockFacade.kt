@@ -23,7 +23,7 @@ import net.shadowfacts.shadowmc.util.KeyboardHelper
 /**
  * @author shadowfacts
  */
-class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade") {
+class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 
 	companion object {
 		val BASE = UnlistedPropertyState("base")

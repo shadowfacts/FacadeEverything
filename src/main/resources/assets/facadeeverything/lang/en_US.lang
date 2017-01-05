@@ -1,2 +1,6 @@
-tile.facadeeverything:facade.name=Facade
+tile.facadeeverything:facade_block.name=Facade Block
 tile.facadeeverything:table.name=Assembly Table
+tile.facadeeverything:painter.name=Facade Painter
+
+item.facadeeverything:facade.name=%s Facade
+item.facadeeverything:facade.blank.name=Blank Facade

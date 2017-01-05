@@ -10,7 +10,10 @@ import net.minecraft.util.EnumFacing
 import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.items.ItemStackHandler
 import net.shadowfacts.facadeeverything.block.ModBlocks
+import net.shadowfacts.facadeeverything.item.ItemFacade
 import net.shadowfacts.facadeeverything.util.base
+import net.shadowfacts.facadeeverything.util.getFacadeState
+import net.shadowfacts.facadeeverything.util.getState
 import net.shadowfacts.facadeeverything.util.setStateForSide
 import net.shadowfacts.shadowmc.capability.CapHolder
 import net.shadowfacts.shadowmc.tileentity.BaseTileEntity
@@ -38,16 +41,8 @@ class TileEntityTable: BaseTileEntity() {
 	@CapHolder(capabilities = arrayOf(IItemHandler::class), sides = arrayOf(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST))
 	val facades = object: ItemStackHandler(6) {
 		override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-			if (stack.item !is ItemBlock && stack.item !is ItemBlockSpecial) return stack
+			if (stack.item !is ItemFacade || stack.getFacadeState() == null) return stack
 			return super.insertItem(slot, stack, simulate)
-		}
-
-		override fun extractItem(slot: Int, amount: Int, simulate: Boolean): ItemStack {
-			val result = super.extractItem(slot, amount, simulate)
-			if (!result.isEmpty) {
-				removeInput()
-			}
-			return result
 		}
 	}
 
@@ -71,28 +66,18 @@ class TileEntityTable: BaseTileEntity() {
 			return
 		}
 		val stack = ItemStack(ModBlocks.facade)
-		stack.base = getState(input.getStackInSlot(0)) ?: return
+		stack.base = input.getStackInSlot(0).getState() ?: return
 		EnumFacing.VALUES.forEachIndexed { i, side ->
-			stack.setStateForSide(side, getState(facades.getStackInSlot(i)))
+			stack.setStateForSide(side, facades.getStackInSlot(i).getFacadeState())
 		}
 		output.setStackInSlot(0, stack)
 	}
 
-	private fun getState(stack: ItemStack): IBlockState? {
-		var block: Block? = null
-		if (stack.item is ItemBlock) {
-			block = (stack.item as ItemBlock).block
-		} else if (stack.item is ItemBlockSpecial) {
-			block = (stack.item as ItemBlockSpecial).block
-		}
-		if (block == null) {
-			return null
-		}
-		return block.getStateFromMeta(stack.metadata)
-	}
-
 	fun removeInput() {
 		input.extractItem(0, 1, false)
+		for (i in 0..facades.slots - 1) {
+			facades.extractItem(i, 1, false)
+		}
 	}
 
 }

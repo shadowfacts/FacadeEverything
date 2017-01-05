@@ -16,7 +16,7 @@ object ClientEventHandler {
 
 	@SubscribeEvent
 	fun onModelBake(event: ModelBakeEvent) {
-		event.modelRegistry.putObject(ModelResourceLocation(ResourceLocation(MOD_ID, "facade"), "normal"), ModelFacadeBlock)
+		event.modelRegistry.putObject(ModelResourceLocation(ResourceLocation(MOD_ID, "facade_block"), "normal"), ModelFacadeBlock)
 	}
 
 	@SubscribeEvent

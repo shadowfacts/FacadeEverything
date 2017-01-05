@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.event.ClientEventHandler
 import net.shadowfacts.facadeeverything.gui.GUIHandler
+import net.shadowfacts.facadeeverything.item.ModItems
 import net.shadowfacts.facadeeverything.network.PacketRequestUpdate
 import net.shadowfacts.facadeeverything.network.PacketUpdate
 import net.shadowfacts.facadeeverything.util.CommandStateId
@@ -26,10 +27,12 @@ object FacadeEverything {
 
 //	Content
 	val blocks = ModBlocks
+	val items = ModItems
 
 	@Mod.EventHandler
 	fun preInit(event: FMLPreInitializationEvent) {
 		blocks.init()
+		items.init()
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, GUIHandler)
 
