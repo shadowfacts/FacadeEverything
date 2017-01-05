@@ -1,4 +1,4 @@
-package net.shadowfacts.facadeeverything.model
+package net.shadowfacts.facadeeverything.model.block
 
 import com.google.common.collect.ImmutableList
 import net.minecraft.block.state.IBlockState
@@ -12,6 +12,7 @@ import net.minecraft.util.EnumFacing
 import net.minecraftforge.client.MinecraftForgeClient
 import net.minecraftforge.common.property.IExtendedBlockState
 import net.shadowfacts.facadeeverything.block.facade.BlockFacade
+import net.shadowfacts.facadeeverything.model.QuadCache
 
 /**
  * @author shadowfacts
