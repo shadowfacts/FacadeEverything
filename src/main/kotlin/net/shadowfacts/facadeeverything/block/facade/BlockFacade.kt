@@ -89,17 +89,6 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 		return false
 	}
 
-	override fun addInformation(stack: ItemStack, player: EntityPlayer, tooltip: MutableList<String>, advanced: Boolean) {
-		if (KeyboardHelper.isShiftPressed()) {
-			tooltip.add("Base: ${stack.base.block.localizedName}")
-			EnumFacing.VALUES.forEach {
-				tooltip.add(it.name.toLowerCase().capitalize() + ": " + (stack.getStateForSide(it)?.block?.localizedName ?: "None"))
-			}
-		} else {
-			tooltip.add("${TextFormatting.ITALIC}Press [Shift] for facades")
-		}
-	}
-
 	override fun getTileEntityClass(): Class<TileEntityFacade> {
 		return TileEntityFacade::class.java
 	}

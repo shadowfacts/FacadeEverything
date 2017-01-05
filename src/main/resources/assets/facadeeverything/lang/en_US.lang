@@ -1,6 +1,20 @@
+# Blocks
 tile.facadeeverything:facade_block.name=Facade Block
+tile.facadeeverything:facade_block.specific.name=%s Facade Block
+tile.facadeeverything:facade_block.tooltip=%s: %s
+
 tile.facadeeverything:table.name=Assembly Table
+
 tile.facadeeverything:painter.name=Facade Painter
 
+# Items
 item.facadeeverything:facade.name=%s Facade
 item.facadeeverything:facade.blank.name=Blank Facade
+
+# Misc
+direction.down=Down
+direction.up=Up
+direction.north=North
+direction.south=South
+direction.west=West
+direction.east=East
