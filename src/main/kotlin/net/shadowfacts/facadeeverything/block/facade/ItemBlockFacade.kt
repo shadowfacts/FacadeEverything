@@ -14,7 +14,7 @@ import net.shadowfacts.shadowmc.util.KeyboardHelper
 /**
  * @author shadowfacts
  */
-class ItemBlockFacade(): ItemBlock(ModBlocks.facade) {
+class ItemBlockFacade: ItemBlock(ModBlocks.facade) {
 
 	init {
 		registryName = block.registryName

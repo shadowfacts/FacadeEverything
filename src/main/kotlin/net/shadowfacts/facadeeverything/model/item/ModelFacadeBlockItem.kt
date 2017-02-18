@@ -1,24 +1,21 @@
-package net.shadowfacts.facadeeverything.model.block
+package net.shadowfacts.facadeeverything.model.item
 
 import com.google.common.base.Function
 import com.google.common.base.Optional
-import com.google.common.collect.ImmutableList
 import net.minecraft.client.renderer.block.model.IBakedModel
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.client.renderer.vertex.VertexFormat
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.model.IModel
-import net.minecraftforge.common.model.IModelPart
 import net.minecraftforge.common.model.IModelState
-import net.minecraftforge.common.model.TRSRTransformation
 
 /**
  * @author shadowfacts
  */
-object ModelFacadeBlock: IModel {
+object ModelFacadeBlockItem: IModel {
 
 	override fun bake(state: IModelState?, format: VertexFormat?, bakedTextureGetter: Function<ResourceLocation, TextureAtlasSprite>?): IBakedModel {
-		return BakedModelFacadeBlock
+		return BakedModelFacadeBlockItem()
 	}
 
 	override fun getTextures(): Collection<ResourceLocation> {
@@ -26,7 +23,7 @@ object ModelFacadeBlock: IModel {
 	}
 
 	override fun getDefaultState(): IModelState {
-		return IModelState { Optional.absent() }
+		return IModelState { Optional.absent()}
 	}
 
 	override fun getDependencies(): Collection<ResourceLocation> {

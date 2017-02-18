@@ -24,7 +24,7 @@ class PacketUpdate(var pos: BlockPos = BlockPos.ORIGIN, var tag: NBTTagCompound 
 
 	override fun fromBytes(buf: ByteBuf) {
 		pos = BlockPos.fromLong(buf.readLong())
-		tag = ByteBufUtils.readTag(buf)
+		tag = ByteBufUtils.readTag(buf)!!
 	}
 
 	object Handler: IMessageHandler<PacketUpdate, IMessage> {

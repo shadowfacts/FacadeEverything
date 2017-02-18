@@ -1,5 +1,6 @@
 package net.shadowfacts.facadeeverything
 
+import net.minecraftforge.client.model.ModelLoaderRegistry
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
@@ -12,6 +13,7 @@ import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.event.ClientEventHandler
 import net.shadowfacts.facadeeverything.gui.GUIHandler
 import net.shadowfacts.facadeeverything.item.ModItems
+import net.shadowfacts.facadeeverything.model.FEModelLoader
 import net.shadowfacts.facadeeverything.network.PacketRequestUpdate
 import net.shadowfacts.facadeeverything.network.PacketUpdate
 import net.shadowfacts.facadeeverything.util.CommandStateId
@@ -45,6 +47,7 @@ object FacadeEverything {
 	@SideOnly(Side.CLIENT)
 	fun preInitClient(event: FMLPreInitializationEvent) {
 		MinecraftForge.EVENT_BUS.register(ClientEventHandler)
+		ModelLoaderRegistry.registerLoader(FEModelLoader)
 	}
 
 	@Mod.EventHandler

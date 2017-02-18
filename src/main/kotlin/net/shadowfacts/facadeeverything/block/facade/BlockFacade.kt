@@ -4,17 +4,22 @@ import net.minecraft.block.material.Material
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
+import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.EnumFacing
+import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.TextFormatting
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
+import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.common.property.ExtendedBlockState
 import net.minecraftforge.common.property.IExtendedBlockState
+import net.shadowfacts.facadeeverything.MOD_ID
 import net.shadowfacts.facadeeverything.property.UnlistedPropertyState
 import net.shadowfacts.facadeeverything.util.*
 import net.shadowfacts.shadowmc.block.BlockTE
@@ -58,14 +63,7 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 	}
 
 	override fun initItemModel() {
-//		TODO: fixme, find a way of doing this without needing 65536^7 MRLs
-//		ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(this)) { stack ->
-//			var variant = "base=${stack.baseId}"
-//			stack.sideIds.forEach {
-//				variant += ",${it.key.name.toLowerCase()}=${it.value}"
-//			}
-//			ModelResourceLocation(registryName, variant)
-//		}
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, ModelResourceLocation(ResourceLocation(MOD_ID, "facade_block"), "inventory"))
 	}
 
 	override fun onBlockPlacedBy(world: World, pos: BlockPos, state: IBlockState, placer: EntityLivingBase, stack: ItemStack) {
