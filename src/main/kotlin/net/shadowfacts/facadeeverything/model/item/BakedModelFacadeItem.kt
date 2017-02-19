@@ -19,7 +19,6 @@ import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad
 import net.shadowfacts.facadeeverything.model.BakedModelBase
 import net.shadowfacts.facadeeverything.model.QuadCache
 import net.shadowfacts.facadeeverything.util.getFacadeState
-import java.util.concurrent.Callable
 import java.util.concurrent.TimeUnit
 
 /**

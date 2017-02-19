@@ -2,9 +2,7 @@ package net.shadowfacts.facadeeverything.block.painter
 
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.ITickable
 import net.minecraftforge.items.IItemHandler
-import net.minecraftforge.items.ItemHandlerHelper
 import net.minecraftforge.items.ItemStackHandler
 import net.shadowfacts.facadeeverything.item.ItemFacade
 import net.shadowfacts.facadeeverything.item.ModItems

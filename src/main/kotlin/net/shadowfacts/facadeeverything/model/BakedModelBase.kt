@@ -1,6 +1,5 @@
 package net.shadowfacts.facadeeverything.model
 
-import com.google.common.collect.ImmutableMap
 import net.minecraft.client.renderer.block.model.IBakedModel
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms
 import net.minecraft.client.renderer.block.model.ItemOverrideList

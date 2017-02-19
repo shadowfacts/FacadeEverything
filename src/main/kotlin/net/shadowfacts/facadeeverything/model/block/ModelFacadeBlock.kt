@@ -2,15 +2,12 @@ package net.shadowfacts.facadeeverything.model.block
 
 import com.google.common.base.Function
 import com.google.common.base.Optional
-import com.google.common.collect.ImmutableList
 import net.minecraft.client.renderer.block.model.IBakedModel
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.client.renderer.vertex.VertexFormat
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.model.IModel
-import net.minecraftforge.common.model.IModelPart
 import net.minecraftforge.common.model.IModelState
-import net.minecraftforge.common.model.TRSRTransformation
 
 /**
  * @author shadowfacts

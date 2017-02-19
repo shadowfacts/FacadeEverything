@@ -4,9 +4,9 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.inventory.Container
 import net.minecraft.util.ResourceLocation
-import net.shadowfacts.shadowmc.ui.dsl.*
 import net.shadowfacts.facadeeverything.MOD_ID
 import net.shadowfacts.facadeeverything.block.ModBlocks
+import net.shadowfacts.shadowmc.ui.dsl.container
 
 /**
  * @author shadowfacts
