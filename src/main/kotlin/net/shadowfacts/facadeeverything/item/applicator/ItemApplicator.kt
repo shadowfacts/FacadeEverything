@@ -35,6 +35,53 @@ class ItemApplicator: ItemBase("applicator") {
 		}
 	}
 
+	fun applyFacade(world: World, pos: BlockPos, side: EnumFacing, player: EntityPlayer, stack: ItemStack): EnumActionResult {
+		val tile = ModBlocks.facade.getTileEntity(world, pos)
+
+		val current = tile.facades[side]
+		if (current != null) {
+			player.inventory.addItemStackToInventory(ItemFacade.forState(current))
+		}
+		tile.facades[side] = stack.getItemHandler().extractItem(0, 1, false).getFacadeState()
+		tile.markDirty()
+		world.markBlockRangeForRenderUpdate(pos, pos)
+
+		return EnumActionResult.SUCCESS
+	}
+
+	fun removeFacade(world: World, pos: BlockPos, side: EnumFacing, player: EntityPlayer, stack: ItemStack): EnumActionResult {
+		val tile = ModBlocks.facade.getTileEntity(world, pos)
+
+		val current = tile.facades[side]
+		if (current != null) {
+			player.inventory.addItemStackToInventory(ItemFacade.forState(current))
+			tile.facades[side] = null
+			world.markBlockRangeForRenderUpdate(pos, pos)
+
+			return EnumActionResult.SUCCESS
+		}
+
+		return EnumActionResult.FAIL
+	}
+
+	override fun onItemUse(player: EntityPlayer, world: World, pos: BlockPos, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): EnumActionResult {
+		if (!player.isSneaking) {
+			val state = world.getBlockState(pos)
+			if (state.block !== ModBlocks.facade) {
+				return EnumActionResult.FAIL
+			}
+
+			val stack = player.getHeldItem(hand)
+
+			if (!stack.getItemHandler().getStackInSlot(0).isEmpty) {
+				return applyFacade(world, pos, facing, player, stack)
+			} else {
+				return removeFacade(world, pos, facing, player, stack)
+			}
+		}
+		return EnumActionResult.PASS
+	}
+
 	override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
 		val stack = player.getHeldItem(hand)
 		if (player.isSneaking) {
@@ -42,34 +89,6 @@ class ItemApplicator: ItemBase("applicator") {
 			return ActionResult(EnumActionResult.SUCCESS, stack)
 		}
 		return ActionResult(EnumActionResult.PASS, stack)
-	}
-
-	override fun onItemUse(player: EntityPlayer, world: World, pos: BlockPos, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): EnumActionResult {
-		if (!player.isSneaking) {
-			val stack = player.getHeldItem(hand)
-			if (stack.getItemHandler().getStackInSlot(0).isEmpty) {
-				return EnumActionResult.FAIL
-			}
-
-
-			val state = world.getBlockState(pos)
-			if (state.block !== ModBlocks.facade) {
-				return EnumActionResult.FAIL
-			}
-
-			val tile = ModBlocks.facade.getTileEntity(world, pos)
-
-			val current = tile.facades[facing]
-			if (current != null) {
-				player.inventory.addItemStackToInventory(ItemFacade.forState(current))
-			}
-			tile.facades[facing] = stack.getItemHandler().extractItem(0, 1, false).getFacadeState()
-			tile.markDirty()
-			world.markBlockRangeForRenderUpdate(pos, pos)
-
-			return EnumActionResult.SUCCESS
-		}
-		return EnumActionResult.PASS
 	}
 
 	override fun addInformation(stack: ItemStack, player: EntityPlayer, tooltip: MutableList<String>, advanced: Boolean) {
