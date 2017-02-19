@@ -2,6 +2,7 @@ package net.shadowfacts.facadeeverything.model.item
 
 import com.google.common.cache.CacheBuilder
 import com.google.common.collect.ImmutableList
+import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.block.model.BakedQuad
@@ -17,7 +18,6 @@ import net.shadowfacts.facadeeverything.model.BakedModelBase
 import net.shadowfacts.facadeeverything.model.QuadCache
 import net.shadowfacts.facadeeverything.util.base
 import net.shadowfacts.facadeeverything.util.sides
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -69,7 +69,11 @@ class BakedModelFacadeBlockItem(val base: IBlockState? = null, val facades: Arra
 		}
 
 		fun hash(base: IBlockState, facades: Array<IBlockState?>): Int {
-			return base.hashCode() * 31 + Arrays.hashCode(facades)
+			var result = 1
+			facades.forEach {
+				result = 31 * result + (if (it == null) 0 else Block.getStateId(it))
+			}
+			return 31 * Block.getStateId(base) + result
 		}
 
 		operator fun get(base: IBlockState, facades: Array<IBlockState?>): BakedModelFacadeBlockItem {
