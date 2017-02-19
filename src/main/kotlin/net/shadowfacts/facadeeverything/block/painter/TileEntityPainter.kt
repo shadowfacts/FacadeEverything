@@ -17,7 +17,7 @@ import net.shadowfacts.shadowmc.tileentity.BaseTileEntity
 /**
  * @author shadowfacts
  */
-class TileEntityPainter: BaseTileEntity(), ITickable {
+class TileEntityPainter: BaseTileEntity() {
 
 	companion object {
 		val SLOT_BLANK = 0 // blank facades
@@ -29,7 +29,7 @@ class TileEntityPainter: BaseTileEntity(), ITickable {
 	val inventory = object: ItemStackHandler(3) {
 		override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
 			when (slot) {
-				SLOT_BLANK -> if (stack.item !== ModItems.facade && stack.getFacadeState() !== null) return stack
+				SLOT_BLANK -> if (stack.item !== ModItems.facade || stack.getFacadeState() !== null) return stack
 				SLOT_TEMPLATE -> if (!stack.isItemBlock) return stack
 				SLOT_OUTPUT -> return stack
 			}
@@ -37,48 +37,19 @@ class TileEntityPainter: BaseTileEntity(), ITickable {
 		}
 	}
 
-	var ticksSinceLastOp = 10
-
-	override fun update() {
-		if (canPaint()) {
-			paint()
-			markDirty()
-		} else {
-			ticksSinceLastOp++
-		}
-	}
-
-	private fun canPaint(): Boolean {
-		return ticksSinceLastOp > 10 && hasBlank() && hasTemplate() && canInsertOutput()
-	}
-
-	private fun hasBlank(): Boolean {
-		return !inventory.getStackInSlot(SLOT_BLANK).isEmpty
-	}
-
-	private fun hasTemplate(): Boolean {
+	fun updateOutput() {
+		val blank = inventory.getStackInSlot(SLOT_BLANK)
 		val template = inventory.getStackInSlot(SLOT_TEMPLATE)
-		return !template.isEmpty && template.isItemBlock
+		inventory.setStackInSlot(SLOT_OUTPUT, if (blank.isEmpty || template.isEmpty) ItemStack.EMPTY else getOutput())
+		markDirty()
 	}
 
-	private fun canInsertOutput(): Boolean {
-		val current = inventory.getStackInSlot(SLOT_OUTPUT)
-		return current.isEmpty || ItemHandlerHelper.canItemStacksStack(getOutput(), current)
+	fun removeInput() {
+		inventory.extractItem(SLOT_BLANK, 1, false)
 	}
 
 	private fun getOutput(): ItemStack {
 		return ItemFacade.forState(inventory.getStackInSlot(SLOT_TEMPLATE).getState()!!)
-	}
-
-	private fun paint() {
-		val current = inventory.getStackInSlot(SLOT_OUTPUT)
-		if (current.isEmpty) {
-			inventory.setStackInSlot(SLOT_OUTPUT, getOutput())
-		} else {
-			current.grow(1)
-		}
-		inventory.extractItem(SLOT_BLANK, 1, false)
-		ticksSinceLastOp = 0
 	}
 
 	override fun writeToNBT(tag: NBTTagCompound): NBTTagCompound {
