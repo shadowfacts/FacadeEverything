@@ -35,14 +35,29 @@ class ItemApplicator: ItemBase("applicator") {
 		}
 	}
 
+	fun createFacade(world: World, pos: BlockPos): Boolean {
+		if (world.getTileEntity(pos) !== null) {
+			return false
+		}
+
+		val state = world.getBlockState(pos)
+		world.setBlockState(pos, ModBlocks.facade.defaultState)
+		val tile = ModBlocks.facade.getTileEntity(world, pos)
+		tile.base = state
+		return true
+	}
+
 	fun applyFacade(world: World, pos: BlockPos, side: EnumFacing, player: EntityPlayer, stack: ItemStack): EnumActionResult {
 		val tile = ModBlocks.facade.getTileEntity(world, pos)
 
+		val new = stack.getItemHandler().getStackInSlot(0).getFacadeState()
 		val current = tile.facades[side]
 		if (current != null) {
-			player.inventory.addItemStackToInventory(ItemFacade.forState(current))
+			if (current == new) return EnumActionResult.FAIL
+			else player.inventory.addItemStackToInventory(ItemFacade.forState(current))
 		}
-		tile.facades[side] = stack.getItemHandler().extractItem(0, 1, false).getFacadeState()
+		stack.getItemHandler().extractItem(0, 1, false)
+		tile.facades[side] = new
 		tile.markDirty()
 		world.markBlockRangeForRenderUpdate(pos, pos)
 
@@ -56,6 +71,11 @@ class ItemApplicator: ItemBase("applicator") {
 		if (current != null) {
 			player.inventory.addItemStackToInventory(ItemFacade.forState(current))
 			tile.facades[side] = null
+
+			if (tile.facades.all { it.value == null }) {
+				world.setBlockState(pos, tile.base)
+			}
+
 			world.markBlockRangeForRenderUpdate(pos, pos)
 
 			return EnumActionResult.SUCCESS
@@ -67,15 +87,17 @@ class ItemApplicator: ItemBase("applicator") {
 	override fun onItemUse(player: EntityPlayer, world: World, pos: BlockPos, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): EnumActionResult {
 		if (!player.isSneaking) {
 			val state = world.getBlockState(pos)
-			if (state.block !== ModBlocks.facade) {
-				return EnumActionResult.FAIL
-			}
-
 			val stack = player.getHeldItem(hand)
 
 			if (!stack.getItemHandler().getStackInSlot(0).isEmpty) {
+				if (state.block !== ModBlocks.facade && !createFacade(world, pos)) {
+					return EnumActionResult.FAIL
+				}
 				return applyFacade(world, pos, facing, player, stack)
 			} else {
+				if (state.block !== ModBlocks.facade) {
+					return EnumActionResult.FAIL
+				}
 				return removeFacade(world, pos, facing, player, stack)
 			}
 		}

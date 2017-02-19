@@ -8,6 +8,7 @@ import net.minecraftforge.items.ItemStackHandler
 import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.item.ItemFacade
 import net.shadowfacts.facadeeverything.util.*
+import net.shadowfacts.forgelin.extensions.forEach
 import net.shadowfacts.shadowmc.capability.CapHolder
 import net.shadowfacts.shadowmc.tileentity.BaseTileEntity
 
@@ -89,10 +90,17 @@ class TileEntityTable: BaseTileEntity() {
 		}
 	}
 
+	fun hasAtLeastOneFacade(): Boolean {
+		facades.forEach {
+			if (!it.isEmpty) return true
+		}
+		return false
+	}
+
 	fun getOutput(): ItemStack {
 		val base = input.getStackInSlot(0).getState()
 		val stack: ItemStack
-		if (base != null) {
+		if (base != null && hasAtLeastOneFacade()) {
 			stack = ItemStack(ModBlocks.facade)
 			stack.base = base
 			EnumFacing.VALUES.forEachIndexed { i, side ->
