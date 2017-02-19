@@ -1,0 +1,13 @@
+@include facadeeverything:base
+
+#applicator {
+	vertical-layout: top
+	horizontal-layout: center
+	margin-top: 5
+}
+
+#inventory {
+	horizontal-layout: left
+	margin-left: 7
+	margin-bottom: 11
+}

@@ -42,7 +42,6 @@ class ContainerPainter(pos: BlockPos, playerInv: InventoryPlayer, painter: TileE
 
 	class SlotPainterOutput(painter: TileEntityPainter, id: Int, x: Int, y: Int): SlotPainter(painter, id, x, y, inventory = painter.output) {
 		override fun onTake(player: EntityPlayer, stack: ItemStack): ItemStack {
-			painter.removeInput()
 			return super.onTake(player, stack)
 		}
 	}

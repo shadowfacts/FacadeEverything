@@ -45,7 +45,6 @@ class ContainerTable(pos: BlockPos, playerInv: InventoryPlayer, table: TileEntit
 
 	class SlotTableOutput(table: TileEntityTable, handler: IItemHandler, id: Int, x: Int, y: Int): SlotTable(table, handler, id, x, y) {
 		override fun onTake(player: EntityPlayer, stack: ItemStack): ItemStack {
-			table.removeInput()
 			return super.onTake(player, stack)
 		}
 	}

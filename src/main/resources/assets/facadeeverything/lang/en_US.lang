@@ -10,6 +10,7 @@ tile.facadeeverything:painter.name=Facade Painter
 # Items
 item.facadeeverything:facade.name=%s Facade
 item.facadeeverything:facade.blank.name=Blank Facade
+item.facadeeverything:applicator.name=Facade Applicator
 
 # Misc
 direction.down=Down
@@ -18,3 +19,5 @@ direction.north=North
 direction.south=South
 direction.west=West
 direction.east=East
+
+facadeeverything.applicator.none=No Facade

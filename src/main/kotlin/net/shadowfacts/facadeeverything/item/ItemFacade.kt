@@ -36,7 +36,7 @@ class ItemFacade: ItemBase("facade") {
 		if (state != null) {
 			return I18n.format("$unlocalizedName.name", state.block.localizedName)
 		} else {
-			return I18n.format("${unlocalizedName}.blank.name")
+			return I18n.format("$unlocalizedName.blank.name")
 		}
 	}
 
