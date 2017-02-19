@@ -46,6 +46,47 @@ class TileEntityTable: BaseTileEntity() {
 		}
 	}
 
+	fun getOutput(): ItemStack {
+		val base = input.getStackInSlot(0).getState()
+		val stack: ItemStack
+		if (base != null) {
+			stack = ItemStack(ModBlocks.facade)
+			stack.base = base
+			EnumFacing.VALUES.forEachIndexed { i, side ->
+				stack.setStateForSide(side, facades.getStackInSlot(i).getFacadeState())
+			}
+		} else {
+			stack = ItemStack.EMPTY
+		}
+		return stack
+	}
+
+	fun updateOutput() {
+		output.setStackInSlot(0, getOutput())
+		markDirty()
+	}
+
+//	fun updateOutput() {
+//		if (input.getStackInSlot(0).isEmpty) {
+//			output.setStackInSlot(0, ItemStack.EMPTY)
+//			return
+//		}
+//		val stack = ItemStack(ModBlocks.facade)
+//		stack.base = input.getStackInSlot(0).getState() ?: return
+//		EnumFacing.VALUES.forEachIndexed { i, side ->
+//			stack.setStateForSide(side, facades.getStackInSlot(i).getFacadeState())
+//		}
+//		output.setStackInSlot(0, stack)
+//	}
+//
+	fun removeInput() {
+		input.extractItem(0, 1, false)
+		for (i in 0..facades.slots - 1) {
+			facades.extractItem(i, 1, false)
+		}
+	}
+
+
 	override fun writeToNBT(tag: NBTTagCompound): NBTTagCompound {
 		tag.setTag("input", input.serializeNBT())
 		tag.setTag("output", output.serializeNBT())
@@ -58,26 +99,6 @@ class TileEntityTable: BaseTileEntity() {
 		output.deserializeNBT(tag.getCompoundTag("output"))
 		facades.deserializeNBT(tag.getCompoundTag("facades"))
 		super.readFromNBT(tag)
-	}
-
-	fun updateOutput() {
-		if (input.getStackInSlot(0).isEmpty) {
-			output.setStackInSlot(0, ItemStack.EMPTY)
-			return
-		}
-		val stack = ItemStack(ModBlocks.facade)
-		stack.base = input.getStackInSlot(0).getState() ?: return
-		EnumFacing.VALUES.forEachIndexed { i, side ->
-			stack.setStateForSide(side, facades.getStackInSlot(i).getFacadeState())
-		}
-		output.setStackInSlot(0, stack)
-	}
-
-	fun removeInput() {
-		input.extractItem(0, 1, false)
-		for (i in 0..facades.slots - 1) {
-			facades.extractItem(i, 1, false)
-		}
 	}
 
 }

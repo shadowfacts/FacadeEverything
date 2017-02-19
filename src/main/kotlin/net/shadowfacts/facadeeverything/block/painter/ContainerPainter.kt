@@ -35,7 +35,6 @@ class ContainerPainter(pos: BlockPos, playerInv: InventoryPlayer, painter: TileE
 
 	open class SlotPainter(val painter: TileEntityPainter, id: Int, x: Int, y: Int): SlotItemHandler(painter.inventory, id, x, y) {
 		override fun onSlotChanged() {
-			super.onSlotChanged()
 			painter.updateOutput()
 		}
 	}

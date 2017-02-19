@@ -83,6 +83,8 @@ val ItemStack.isItemBlock: Boolean
 	get() = item is ItemBlock || item is ItemBlockSpecial
 
 fun ItemStack.getState(): IBlockState? {
+	if (isEmpty) return null
+
 	var block: Block? = null
 	if (item is ItemBlock) {
 		block = (item as ItemBlock).block

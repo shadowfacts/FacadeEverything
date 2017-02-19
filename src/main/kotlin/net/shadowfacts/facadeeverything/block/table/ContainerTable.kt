@@ -1,7 +1,9 @@
 package net.shadowfacts.facadeeverything.block.table
 
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.inventory.Slot
+import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraftforge.items.IItemHandler
@@ -38,14 +40,13 @@ class ContainerTable(pos: BlockPos, playerInv: InventoryPlayer, table: TileEntit
 	open class SlotTable(val table: TileEntityTable, handler: IItemHandler, id: Int, x: Int, y: Int): SlotItemHandler(handler, id, x, y) {
 		override fun onSlotChanged() {
 			table.updateOutput()
-			table.markDirty()
 		}
 	}
 
 	class SlotTableOutput(table: TileEntityTable, handler: IItemHandler, id: Int, x: Int, y: Int): SlotTable(table, handler, id, x, y) {
-		override fun onSlotChanged() {
-			super.onSlotChanged()
+		override fun onTake(player: EntityPlayer, stack: ItemStack): ItemStack {
 			table.removeInput()
+			return super.onTake(player, stack)
 		}
 	}
 
