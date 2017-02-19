@@ -24,8 +24,55 @@ class TileEntityTable: BaseTileEntity() {
 	@CapHolder(capabilities = arrayOf(IItemHandler::class), sides = arrayOf(EnumFacing.UP))
 	val input = object: ItemStackHandler(1) {
 		override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-			if (stack.item !is ItemBlock && stack.item !is ItemBlockSpecial) return stack
-			return super.insertItem(slot, stack, simulate)
+			val res = if (stack.item !is ItemBlock && stack.item !is ItemBlockSpecial) {
+				stack
+			} else {
+				super.insertItem(slot, stack, simulate)
+			}
+
+			if (!simulate) {
+				updateOutput()
+			}
+
+			return res
+		}
+
+		override fun extractItem(slot: Int, amount: Int, simulate: Boolean): ItemStack {
+			val res = super.extractItem(slot, amount, simulate)
+
+			if (!simulate) {
+				updateOutput()
+			}
+
+			return res
+		}
+	}
+
+	@CapHolder(capabilities = arrayOf(IItemHandler::class), sides = arrayOf(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST))
+	val facades = object: ItemStackHandler(6) {
+
+		override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
+			val res = if (stack.item !is ItemFacade || stack.getFacadeState() === null) {
+				stack
+			} else {
+				super.insertItem(slot, stack, simulate)
+			}
+
+			if (!simulate) {
+				updateOutput()
+			}
+
+			return res
+		}
+
+		override fun extractItem(slot: Int, amount: Int, simulate: Boolean): ItemStack {
+			val res = super.extractItem(slot, amount, simulate)
+
+			if (!simulate) {
+				updateOutput()
+			}
+
+			return res
 		}
 	}
 
@@ -34,13 +81,16 @@ class TileEntityTable: BaseTileEntity() {
 		override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
 			return stack
 		}
-	}
 
-	@CapHolder(capabilities = arrayOf(IItemHandler::class), sides = arrayOf(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST))
-	val facades = object: ItemStackHandler(6) {
-		override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-			if (stack.item !is ItemFacade || stack.getFacadeState() == null) return stack
-			return super.insertItem(slot, stack, simulate)
+		override fun extractItem(slot: Int, amount: Int, simulate: Boolean): ItemStack {
+			val res = super.extractItem(slot, amount, simulate)
+
+			if (!simulate) {
+				removeInput()
+				updateOutput()
+			}
+
+			return res
 		}
 	}
 
@@ -64,26 +114,12 @@ class TileEntityTable: BaseTileEntity() {
 		markDirty()
 	}
 
-//	fun updateOutput() {
-//		if (input.getStackInSlot(0).isEmpty) {
-//			output.setStackInSlot(0, ItemStack.EMPTY)
-//			return
-//		}
-//		val stack = ItemStack(ModBlocks.facade)
-//		stack.base = input.getStackInSlot(0).getState() ?: return
-//		EnumFacing.VALUES.forEachIndexed { i, side ->
-//			stack.setStateForSide(side, facades.getStackInSlot(i).getFacadeState())
-//		}
-//		output.setStackInSlot(0, stack)
-//	}
-//
 	fun removeInput() {
 		input.extractItem(0, 1, false)
 		for (i in 0..facades.slots - 1) {
 			facades.extractItem(i, 1, false)
 		}
 	}
-
 
 	override fun writeToNBT(tag: NBTTagCompound): NBTTagCompound {
 		tag.setTag("input", input.serializeNBT())
