@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.items.ItemStackHandler
+import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.item.ItemFacade
 import net.shadowfacts.facadeeverything.item.ModItems
 import net.shadowfacts.facadeeverything.util.getFacadeState
@@ -28,7 +29,7 @@ class TileEntityPainter: BaseTileEntity() {
 		override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
 			val res = if (slot === SLOT_BLANK && (stack.item !== ModItems.facade || stack.getFacadeState() !== null)) {
 				stack
-			} else if (slot === SLOT_TEMPLATE && !stack.isItemBlock) {
+			} else if (slot === SLOT_TEMPLATE && (!stack.isItemBlock || stack.getState()!!.block == ModBlocks.facade)) {
 				stack
 			} else {
 				super.insertItem(slot, stack, simulate)

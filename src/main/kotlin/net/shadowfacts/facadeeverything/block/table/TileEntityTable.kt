@@ -1,7 +1,5 @@
 package net.shadowfacts.facadeeverything.block.table
 
-import net.minecraft.item.ItemBlock
-import net.minecraft.item.ItemBlockSpecial
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
@@ -9,10 +7,7 @@ import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.items.ItemStackHandler
 import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.item.ItemFacade
-import net.shadowfacts.facadeeverything.util.base
-import net.shadowfacts.facadeeverything.util.getFacadeState
-import net.shadowfacts.facadeeverything.util.getState
-import net.shadowfacts.facadeeverything.util.setStateForSide
+import net.shadowfacts.facadeeverything.util.*
 import net.shadowfacts.shadowmc.capability.CapHolder
 import net.shadowfacts.shadowmc.tileentity.BaseTileEntity
 
@@ -24,7 +19,7 @@ class TileEntityTable: BaseTileEntity() {
 	@CapHolder(capabilities = arrayOf(IItemHandler::class), sides = arrayOf(EnumFacing.UP))
 	val input = object: ItemStackHandler(1) {
 		override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
-			val res = if (stack.item !is ItemBlock && stack.item !is ItemBlockSpecial) {
+			val res = if (!stack.isItemBlock || stack.getState()!!.block == ModBlocks.facade) {
 				stack
 			} else {
 				super.insertItem(slot, stack, simulate)
