@@ -41,6 +41,11 @@ class ItemApplicator: ItemBase("applicator") {
 		}
 
 		val state = world.getBlockState(pos)
+
+		if (state.getBlockHardness(world, pos) == -1f) {
+			return false
+		}
+
 		world.setBlockState(pos, ModBlocks.facade.defaultState)
 		val tile = ModBlocks.facade.getTileEntity(world, pos)
 		tile.base = state
