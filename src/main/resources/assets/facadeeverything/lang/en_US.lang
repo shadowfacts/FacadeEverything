@@ -5,8 +5,6 @@ tile.facadeeverything:facade_block.tooltip=%s: %s
 
 tile.facadeeverything:table.name=Assembly Table
 
-tile.facadeeverything:painter.name=Facade Painter
-
 # Items
 item.facadeeverything:facade.name=%s Facade
 item.facadeeverything:facade.blank.name=Blank Facade

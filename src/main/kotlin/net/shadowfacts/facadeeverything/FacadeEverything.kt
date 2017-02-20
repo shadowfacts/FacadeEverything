@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 import net.minecraftforge.fml.common.network.NetworkRegistry
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper
+import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.shadowfacts.facadeeverything.block.ModBlocks
@@ -16,6 +17,7 @@ import net.shadowfacts.facadeeverything.item.ModItems
 import net.shadowfacts.facadeeverything.model.FEModelLoader
 import net.shadowfacts.facadeeverything.network.PacketRequestUpdate
 import net.shadowfacts.facadeeverything.network.PacketUpdate
+import net.shadowfacts.facadeeverything.recipe.RecipePaintedFacade
 import net.shadowfacts.facadeeverything.util.CommandStateId
 
 /**
@@ -35,6 +37,8 @@ object FacadeEverything {
 	fun preInit(event: FMLPreInitializationEvent) {
 		blocks.init()
 		items.init()
+
+		GameRegistry.addRecipe(RecipePaintedFacade)
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, GUIHandler)
 

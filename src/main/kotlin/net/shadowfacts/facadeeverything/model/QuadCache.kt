@@ -28,7 +28,6 @@ object QuadCache {
 				val quads = model.getQuads(state, null, rand).filter {
 					it.face == side
 				}
-				println(quads)
 				quads
 			}
 		}
