@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.util.NonNullList
 import net.minecraft.world.World
+import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.item.ItemFacade
 import net.shadowfacts.facadeeverything.item.ModItems
 import net.shadowfacts.facadeeverything.util.getFacadeState
@@ -25,7 +26,7 @@ object RecipePaintedFacade: IRecipe {
 		var others = 0
 
 		inv.forEach {
-			if (it.isItemBlock) blocks++
+			if (it.isItemBlock && it.getState()!!.block !== ModBlocks.facade) blocks++
 			else if (it.item == ModItems.facade && it.getFacadeState() == null) blanks++
 			else if (!it.isEmpty) others++
 		}
