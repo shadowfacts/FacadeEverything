@@ -52,10 +52,15 @@ repositories {
 		name "progwml6"
 		url "http://dvs1.progwml6.com/files/maven/"
 	}
+	maven {
+		name "TehNut"
+		url "http://tehnut.info/maven/"
+	}
 }
 
 dependencies {
 	deobfCompile group: "net.shadowfacts", name: "ShadowMC", version: mc_version + "-" + shadowmc_version
 	deobfCompile group: "net.shadowfacts", name: "Forgelin", version: forgelin_version
 	deobfCompile group: "mezz.jei", name: "jei_" + mc_version, version: jei_version
+	deobfCompile group: "mcp.mobius.waila", name: "Hwyla", version: hwyla_version
 }

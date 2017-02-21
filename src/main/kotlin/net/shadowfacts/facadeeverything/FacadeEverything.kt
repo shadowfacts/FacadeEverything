@@ -39,6 +39,8 @@ object FacadeEverything {
 
 	@Mod.EventHandler
 	fun preInit(event: FMLPreInitializationEvent) {
+		FEConfig.init(event.modConfigurationDirectory)
+
 		blocks.init()
 		items.init()
 
