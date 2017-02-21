@@ -92,7 +92,7 @@ fun ItemStack.getState(): IBlockState? {
 		block = (item as ItemBlockSpecial).block
 	}
 
-	return block?.getStateFromMeta(metadata)
+	return block?.getStateFromMeta(item.getMetadata(this))
 }
 
 fun ItemStack.getFacadeState(): IBlockState? {
