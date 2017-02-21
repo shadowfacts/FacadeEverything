@@ -1,17 +1,20 @@
 package net.shadowfacts.facadeeverything.block.facade
 
+import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.entity.EntityLivingBase
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.RayTraceResult
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.client.model.ModelLoader
@@ -20,6 +23,7 @@ import net.minecraftforge.common.property.IExtendedBlockState
 import net.shadowfacts.facadeeverything.MOD_ID
 import net.shadowfacts.facadeeverything.property.UnlistedPropertyState
 import net.shadowfacts.facadeeverything.util.base
+import net.shadowfacts.facadeeverything.util.setStateForSide
 import net.shadowfacts.facadeeverything.util.sides
 import net.shadowfacts.shadowmc.block.BlockTE
 
@@ -39,6 +43,29 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 
 	init {
 		unlocalizedName = registryName.toString()
+	}
+
+	fun getStack(world: World, pos: BlockPos): ItemStack {
+		val tile = getTileEntity(world, pos)
+		val stack = ItemStack(this)
+		stack.base = tile.base
+		EnumFacing.VALUES.forEach {
+			stack.setStateForSide(it, tile.facades[it])
+		}
+		return stack
+	}
+
+	override fun getDrops(world: IBlockAccess?, pos: BlockPos?, state: IBlockState?, fortune: Int): MutableList<ItemStack> {
+		return mutableListOf()
+	}
+
+	override fun breakBlock(world: World, pos: BlockPos, state: IBlockState) {
+		Block.spawnAsEntity(world, pos, getStack(world, pos))
+		super.breakBlock(world, pos, state)
+	}
+
+	override fun getPickBlock(state: IBlockState, target: RayTraceResult, world: World, pos: BlockPos, player: EntityPlayer): ItemStack {
+		return getStack(world, pos)
 	}
 
 	override fun createBlockState(): BlockStateContainer {
@@ -77,10 +104,12 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 		return true
 	}
 
+	@Deprecated("")
 	override fun isOpaqueCube(state: IBlockState?): Boolean {
 		return false
 	}
 
+	@Deprecated("")
 	override fun isFullCube(state: IBlockState?): Boolean {
 		return false
 	}
