@@ -1,5 +1,7 @@
 package net.shadowfacts.facadeeverything
 
+import net.minecraft.init.Blocks
+import net.minecraft.item.ItemStack
 import net.minecraftforge.client.model.ModelLoaderRegistry
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
@@ -39,6 +41,7 @@ object FacadeEverything {
 		items.init()
 
 		GameRegistry.addRecipe(RecipePaintedFacade)
+		GameRegistry.addShapedRecipe(ItemStack(blocks.table), " F ", "FCF", " F ", 'F', items.facade, 'C', Blocks.CRAFTING_TABLE)
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, GUIHandler)
 
