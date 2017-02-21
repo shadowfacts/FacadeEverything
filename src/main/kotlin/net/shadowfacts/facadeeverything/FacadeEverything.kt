@@ -1,6 +1,7 @@
 package net.shadowfacts.facadeeverything
 
 import net.minecraft.init.Blocks
+import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 import net.minecraftforge.client.model.ModelLoaderRegistry
 import net.minecraftforge.common.MinecraftForge
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper
 import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.oredict.ShapedOreRecipe
 import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.event.ClientEventHandler
 import net.shadowfacts.facadeeverything.gui.GUIHandler
@@ -42,6 +44,7 @@ object FacadeEverything {
 
 		GameRegistry.addRecipe(RecipePaintedFacade)
 		GameRegistry.addShapedRecipe(ItemStack(blocks.table), " F ", "FCF", " F ", 'F', items.facade, 'C', Blocks.CRAFTING_TABLE)
+		GameRegistry.addRecipe(ShapedOreRecipe(items.applicator, "FF ", "FS ", "  S", 'F', items.facade, 'S', "stickWood"))
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, GUIHandler)
 
