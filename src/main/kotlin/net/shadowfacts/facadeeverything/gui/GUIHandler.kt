@@ -21,8 +21,9 @@ object GUIHandler: IGuiHandler {
 	val APPLICATOR = 2
 
 	override fun getClientGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any? {
+		val pos = BlockPos(x, y, z)
 		return when (ID) {
-			ASSEMBLY_TABLE -> GUITable.create(getServerGuiElement(ID, player, world, x, y, z)!!)
+			ASSEMBLY_TABLE -> GUITable.create(getServerGuiElement(ID, player, world, x, y, z)!!, ModBlocks.table.getTileEntity(world, pos))
 			APPLICATOR -> GUIApplicator.create(getServerGuiElement(ID, player, world, x, y, z)!!)
 			else -> null
 		}

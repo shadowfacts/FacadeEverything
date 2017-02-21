@@ -23,7 +23,7 @@ import net.shadowfacts.facadeeverything.util.CommandStateId
 /**
  * @author shadowfacts
  */
-@Mod(modid = MOD_ID, name = NAME, version = "@VERSION@", dependencies = "required-after:shadowmc;", modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
+@Mod(modid = MOD_ID, name = NAME, version = "@VERSION@", dependencies = "required-after:shadowmc;required-after:forgelin@[1.3.1,);", modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
 object FacadeEverything {
 
 	lateinit var network: SimpleNetworkWrapper

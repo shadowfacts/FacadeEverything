@@ -1,5 +1,9 @@
 @include facadeeverything:base
 
+#root {
+	margin-left: -83
+}
+
 #table {
 	vertical-layout: top
 	horizontal-layout: right
@@ -11,5 +15,18 @@
 	horizontal-layout: right
 	margin-right: 4
 	margin-bottom: 11
+}
+
+#preview-container {
+	vertical-layout: top
+	horizontal-layout: left
+	margin-left: 4
+}
+
+#preview {
+	vertical-layout: top
+	horizontal-layout: left
+	margin-top: 6
+	margin-left: 6
 }
 
