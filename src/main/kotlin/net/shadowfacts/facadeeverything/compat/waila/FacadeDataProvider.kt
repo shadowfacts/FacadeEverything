@@ -25,14 +25,15 @@ object FacadeDataProvider: IWailaDataProvider {
 		if (FEConfig.inWorldCamoTooltip) {
 			val tile = accessor.tileEntity as TileEntityFacade
 			val side = tile.facades[accessor.side]
+			val stack: ItemStack
 			if (side != null) {
-				return ItemStack(side.block, 1, side.block.getMetaFromState(side))
+				stack = ItemStack(side.block, 1, side.block.getMetaFromState(side))
 			} else {
-				return ItemStack(tile.base.block, 1, tile.base.block.getMetaFromState(tile.base))
+				stack = ItemStack(tile.base.block, 1, tile.base.block.getMetaFromState(tile.base))
 			}
-		} else {
-			return accessor.block.getPickBlock(accessor.blockState, accessor.mop, accessor.world, accessor.position, accessor.player)
+			if (!stack.isEmpty) return stack
 		}
+		return accessor.block.getPickBlock(accessor.blockState, accessor.mop, accessor.world, accessor.position, accessor.player)
 	}
 
 	override fun getWailaHead(itemStack: ItemStack?, currenttip: MutableList<String>, accessor: IWailaDataAccessor?, config: IWailaConfigHandler?): MutableList<String> {

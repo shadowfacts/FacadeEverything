@@ -56,6 +56,14 @@ repositories {
 		name "TehNut"
 		url "http://tehnut.info/maven/"
 	}
+	maven {
+		name "tterrag"
+		url "http://maven.tterrag.com/"
+	}
+	maven {
+		name "K4"
+		url "http://maven.k-4u.nl"
+	}
 }
 
 dependencies {
@@ -63,4 +71,6 @@ dependencies {
 	deobfCompile group: "net.shadowfacts", name: "Forgelin", version: forgelin_version
 	deobfCompile group: "mezz.jei", name: "jei_" + mc_version, version: jei_version
 	deobfCompile group: "mcp.mobius.waila", name: "Hwyla", version: hwyla_version
+	deobfCompile group: "mcjty.theoneprobe", name: "TheOneProbe", version: top_version
+	deobfCompile group: "com.github.mcjty", name: "compatlayer", version: mc_version + "-" + cl_version
 }

@@ -5,7 +5,9 @@ import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 import net.minecraftforge.client.model.ModelLoaderRegistry
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 import net.minecraftforge.fml.common.network.NetworkRegistry
@@ -15,6 +17,7 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.oredict.ShapedOreRecipe
 import net.shadowfacts.facadeeverything.block.ModBlocks
+import net.shadowfacts.facadeeverything.compat.top.CompatTOP
 import net.shadowfacts.facadeeverything.event.ClientEventHandler
 import net.shadowfacts.facadeeverything.gui.GUIHandler
 import net.shadowfacts.facadeeverything.item.ModItems
@@ -60,6 +63,13 @@ object FacadeEverything {
 	fun preInitClient(event: FMLPreInitializationEvent) {
 		MinecraftForge.EVENT_BUS.register(ClientEventHandler)
 		ModelLoaderRegistry.registerLoader(FEModelLoader)
+	}
+
+	@Mod.EventHandler
+	fun init(event: FMLInitializationEvent) {
+		if (Loader.isModLoaded("theoneprobe")) {
+			CompatTOP.init()
+		}
 	}
 
 	@Mod.EventHandler
