@@ -17,7 +17,6 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.WorldType
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.client.ForgeHooksClient
-import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.property.IExtendedBlockState
 import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.block.facade.BlockFacade
@@ -30,6 +29,7 @@ import net.shadowfacts.shadowmc.ui.UIDimensions
 import net.shadowfacts.shadowmc.ui.UIMouseInteractable
 import net.shadowfacts.shadowmc.ui.element.UIElementBase
 import net.shadowfacts.shadowmc.util.MouseButton
+import net.shadowfacts.shadowmc.util.RelativeSide
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 import org.lwjgl.util.vector.Matrix4f
@@ -67,7 +67,7 @@ class UIFacadePreview(val table: TileEntityTable, id: String, vararg classes: St
 	val tile = TileEntityFacade().apply {
 		pos = BlockPos.ORIGIN
 		base = Blocks.GLASS.defaultState
-		EnumFacing.VALUES.forEach {
+		RelativeSide.values().forEach {
 			facades[it] = if (it.ordinal % 2 == 0) Blocks.GOLD_BLOCK.defaultState else null
 		}
 	}
@@ -78,9 +78,9 @@ class UIFacadePreview(val table: TileEntityTable, id: String, vararg classes: St
 			disabled = false
 			facade = facade.withProperty(BlockFacade.BASE, stack.base)
 			tile.base = stack.base
-			EnumFacing.VALUES.forEach {
+			RelativeSide.values().forEach {
 				val side = stack.getStateForSide(it)
-				facade = facade.withProperty(BlockFacade.SIDE_PROPS[it], side)
+				facade = facade.withProperty(BlockFacade.SIDE_PROPS[it.forFront(EnumFacing.NORTH)], side)
 				tile.facades[it] = side
 			}
 		} else {
@@ -183,7 +183,7 @@ class UIFacadePreview(val table: TileEntityTable, id: String, vararg classes: St
 			val dx = mouseX - lastX
 			val dy = mouseY - lastY
 
-			angleY = Math.min(Math.max(angleY - dy, -90.0), 90.0)
+			angleY = Math.min(Math.max(angleY + dy, -90.0), 90.0)
 			angleX -= dx
 
 			lastX = mouseX

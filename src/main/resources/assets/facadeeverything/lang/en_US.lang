@@ -12,11 +12,11 @@ item.facadeeverything:facade.blank.name=Blank Facade
 item.facadeeverything:applicator.name=Facade Applicator
 
 # Misc
-direction.down=Down
-direction.up=Up
-direction.north=North
-direction.south=South
-direction.west=West
-direction.east=East
+side.front=Front
+side.back=Back
+side.left=Left
+side.right=Right
+side.top=Top
+side.bottom=Bottom
 
 facadeeverything.applicator.none=No Facade

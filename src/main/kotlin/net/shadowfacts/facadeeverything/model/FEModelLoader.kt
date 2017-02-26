@@ -15,36 +15,52 @@ import net.shadowfacts.facadeeverything.model.item.ModelFacadeItem
  */
 object FEModelLoader: ICustomModelLoader {
 
-	private val models: MutableMap<Triple<String, String, String>, IModel> = mutableMapOf()
+	private val models: MutableMap<Pair<String, String?>, (String?) -> IModel> = mutableMapOf()
 
 	private fun init() {
-		models[Triple(MOD_ID, "facade_block", "normal")] = ModelFacadeBlock
-		models[Triple(MOD_ID, "facade_block", "inventory")] = ModelFacadeBlockItem
-		models[Triple(MOD_ID, "facade", "inventory")] = ModelFacadeItem
+		models["facade_block" to null] = {
+			when (it) {
+				"inventory" -> ModelFacadeBlockItem
+				else -> ModelFacadeBlock
+			}
+		}
+		models["facade" to "inventory"] = { ModelFacadeItem }
 	}
 
 	override fun accepts(modelLocation: ResourceLocation): Boolean {
-		if (modelLocation is ModelResourceLocation) {
-			return models.keys.firstOrNull {
-				it.first == modelLocation.resourceDomain && it.second == modelLocation.resourcePath && it.third == modelLocation.variant
-			} != null
-		} else {
-			return models.keys.firstOrNull {
-				it.first == modelLocation.resourceDomain && it.second == modelLocation.resourcePath
-			} != null
+		if (modelLocation.resourceDomain == MOD_ID) {
+			if (modelLocation is ModelResourceLocation) {
+				for ((key) in models) {
+					if (key.first == modelLocation.resourcePath && (key.second == null || key.second == modelLocation.variant)) {
+						return true
+					}
+				}
+			} else {
+				for ((key) in models) {
+					if (key.first == modelLocation.resourcePath) {
+						return true
+					}
+				}
+			}
 		}
+		return false
 	}
 
 	override fun loadModel(modelLocation: ResourceLocation): IModel {
 		if (modelLocation is ModelResourceLocation) {
-			return models.toList().first {
-				it.first.first == modelLocation.resourceDomain && it.first.second == modelLocation.resourcePath && it.first.third == modelLocation.variant
-			}.second
+			for ((key, value) in models) {
+				if (key.first == modelLocation.resourcePath && (key.second == null || key.second == modelLocation.variant)) {
+					return value(modelLocation.variant)
+				}
+			}
 		} else {
-			return models.toList().first {
-				it.first.first == modelLocation.resourceDomain && it.first.second == modelLocation.resourcePath
-			}.second
+			for ((key, value) in models) {
+				if (key.first == modelLocation.resourcePath) {
+					return value(null)
+				}
+			}
 		}
+		throw RuntimeException("Unable to handle model $modelLocation")
 	}
 
 	override fun onResourceManagerReload(resourceManager: IResourceManager) {

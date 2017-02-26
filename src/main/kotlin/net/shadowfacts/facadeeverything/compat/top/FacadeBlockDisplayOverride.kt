@@ -17,7 +17,7 @@ object FacadeBlockDisplayOverride: IBlockDisplayOverride {
 	override fun overrideStandardInfo(mode: ProbeMode, probeInfo: IProbeInfo, player: EntityPlayer, world: World, state: IBlockState, data: IProbeHitData): Boolean {
 		if (state.block == ModBlocks.facade) {
 			val tile = ModBlocks.facade.getTileEntity(world, data.pos)
-			val facadeState = tile.facades[data.sideHit] ?: tile.base
+			val facadeState = tile.getFacadeForSide(data.sideHit)
 			val stack = ItemStack(facadeState.block, 1, facadeState.block.getMetaFromState(facadeState))
 			if (!stack.isEmpty) {
 				if (Tools.show(mode, Config.getRealConfig().showModName)) {

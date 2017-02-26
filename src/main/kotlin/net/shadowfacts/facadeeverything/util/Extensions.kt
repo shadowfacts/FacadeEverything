@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.util.Constants
 import net.shadowfacts.facadeeverything.item.ItemFacade
+import net.shadowfacts.shadowmc.util.RelativeSide
 import java.util.*
 
 /**
@@ -42,38 +43,29 @@ var ItemStack.base: IBlockState
 		baseId = Block.getStateId(value)
 	}
 
-fun ItemStack.getStateIdForSide(side: EnumFacing): Int {
+fun ItemStack.getStateIdForSide(side: RelativeSide): Int {
 	if (!hasTagCompound()) initDefaults()
 	return if (tagCompound!!.hasKey(side.name.toLowerCase())) tagCompound!!.getInteger(side.name.toLowerCase()) else -1
 }
 
-fun ItemStack.setStateIdForSide(side: EnumFacing, id: Int) {
+fun ItemStack.setStateIdForSide(side: RelativeSide, id: Int) {
 	if (!hasTagCompound()) initDefaults()
 	tagCompound!!.setInteger(side.name.toLowerCase(), id)
 }
 
-fun ItemStack.getStateForSide(side: EnumFacing): IBlockState? {
+fun ItemStack.getStateForSide(side: RelativeSide): IBlockState? {
 	val id = getStateIdForSide(side)
 	return if (id == -1) null else Block.getStateById(id)
 }
 
-fun ItemStack.setStateForSide(side: EnumFacing, state: IBlockState?) {
+fun ItemStack.setStateForSide(side: RelativeSide, state: IBlockState?) {
 	setStateIdForSide(side, if (state == null) -1 else Block.getStateId(state))
 }
 
-val ItemStack.sideIds: Map<EnumFacing, Int>
+val ItemStack.sides: Map<RelativeSide, IBlockState?>
 	get() {
-		val map = mutableMapOf<EnumFacing, Int>()
-		EnumFacing.VALUES.forEach {
-			map.put(it, getStateIdForSide(it))
-		}
-		return map
-	}
-
-val ItemStack.sides: Map<EnumFacing, IBlockState?>
-	get() {
-		val map = EnumMap<EnumFacing, IBlockState?>(EnumFacing::class.java)
-		EnumFacing.VALUES.forEach {
+		val map = EnumMap<RelativeSide, IBlockState?>(RelativeSide::class.java)
+		RelativeSide.values().forEach {
 			map.put(it, getStateForSide(it))
 		}
 		return map

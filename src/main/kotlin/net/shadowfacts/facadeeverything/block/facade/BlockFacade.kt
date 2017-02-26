@@ -3,6 +3,7 @@ package net.shadowfacts.facadeeverything.block.facade
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.block.properties.IProperty
+import net.minecraft.block.properties.PropertyDirection
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
@@ -12,6 +13,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.EnumFacing
+import net.minecraft.util.EnumHand
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.RayTraceResult
@@ -26,6 +28,7 @@ import net.shadowfacts.facadeeverything.util.base
 import net.shadowfacts.facadeeverything.util.setStateForSide
 import net.shadowfacts.facadeeverything.util.sides
 import net.shadowfacts.shadowmc.block.BlockTE
+import net.shadowfacts.shadowmc.util.RelativeSide
 
 /**
  * @author shadowfacts
@@ -33,6 +36,7 @@ import net.shadowfacts.shadowmc.block.BlockTE
 class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 
 	companion object {
+		val FRONT: PropertyDirection = PropertyDirection.create("front", EnumFacing.Plane.HORIZONTAL)
 		val BASE = UnlistedPropertyState("base")
 		val SIDE_PROPS: Map<EnumFacing, UnlistedPropertyState> = mutableMapOf<EnumFacing, UnlistedPropertyState>().apply {
 			EnumFacing.VALUES.forEach {
@@ -43,13 +47,14 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 
 	init {
 		unlocalizedName = registryName.toString()
+		defaultState = blockState.baseState.withProperty(FRONT, EnumFacing.NORTH)
 	}
 
 	fun getStack(world: World, pos: BlockPos): ItemStack {
 		val tile = getTileEntity(world, pos)
 		val stack = ItemStack(this)
 		stack.base = tile.base
-		EnumFacing.VALUES.forEach {
+		RelativeSide.values().forEach {
 			stack.setStateForSide(it, tile.facades[it])
 		}
 		return stack
@@ -60,7 +65,9 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 	}
 
 	override fun breakBlock(world: World, pos: BlockPos, state: IBlockState) {
-		Block.spawnAsEntity(world, pos, getStack(world, pos))
+		if (getTileEntity(world, pos).facades.values.any { it != null }) {
+			Block.spawnAsEntity(world, pos, getStack(world, pos))
+		}
 		super.breakBlock(world, pos, state)
 	}
 
@@ -71,24 +78,42 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 	override fun createBlockState(): BlockStateContainer {
 		val list = mutableListOf(BASE)
 		list.addAll(SIDE_PROPS.values)
-		return ExtendedBlockState(this, arrayOf<IProperty<*>>(), list.toTypedArray())
+		return ExtendedBlockState(this, arrayOf(FRONT), list.toTypedArray())
 	}
 
 	override fun getExtendedState(state: IBlockState, world: IBlockAccess, pos: BlockPos): IBlockState {
 		if (state is IExtendedBlockState) {
+			val front = state.getValue(FRONT)
 			val te = getTileEntity(world, pos)
 			@Suppress("NAME_SHADOWING")
 			var state: IExtendedBlockState = state.withProperty(BASE, te.base)
-			SIDE_PROPS.forEach {
-				state = state.withProperty(it.value, te.facades[it.key])
+			RelativeSide.values().forEach {
+				state = state.withProperty(SIDE_PROPS[it.forFront(front)], te.facades[it])
 			}
 			return state
 		}
 		return state
 	}
 
+	override fun getMetaFromState(state: IBlockState): Int {
+		return state.getValue(FRONT).ordinal
+	}
+
+	@Deprecated("")
+	override fun getStateFromMeta(meta: Int): IBlockState {
+		return defaultState.withProperty(FRONT, EnumFacing.getFront(meta))
+	}
+
 	override fun initItemModel() {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, ModelResourceLocation(ResourceLocation(MOD_ID, "facade_block"), "inventory"))
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), EnumFacing.NORTH.ordinal, ModelResourceLocation(ResourceLocation(MOD_ID, "facade_block"), "inventory"))
+	}
+
+	override fun getStateForPlacement(world: World, pos: BlockPos, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float, meta: Int, placer: EntityLivingBase, hand: EnumHand): IBlockState {
+		return defaultState.withProperty(FRONT, getFront(pos, placer))
+	}
+
+	private fun getFront(pos: BlockPos, entity: EntityLivingBase): EnumFacing {
+		return EnumFacing.getFacingFromVector((entity.posX - pos.x).toFloat(), 0f, (entity.posZ - pos.z).toFloat())
 	}
 
 	override fun onBlockPlacedBy(world: World, pos: BlockPos, state: IBlockState, placer: EntityLivingBase, stack: ItemStack) {

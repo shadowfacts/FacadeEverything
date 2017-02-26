@@ -8,6 +8,7 @@ import net.minecraft.util.EnumFacing
 import net.shadowfacts.facadeeverything.FacadeEverything
 import net.shadowfacts.facadeeverything.network.PacketRequestUpdate
 import net.shadowfacts.shadowmc.tileentity.BaseTileEntity
+import net.shadowfacts.shadowmc.util.RelativeSide
 import java.util.*
 
 /**
@@ -16,7 +17,12 @@ import java.util.*
 class TileEntityFacade: BaseTileEntity() {
 
 	var base: IBlockState = Blocks.STONE.defaultState
-	val facades: MutableMap<EnumFacing, IBlockState?> = EnumMap(EnumFacing::class.java)
+	val facades: MutableMap<RelativeSide, IBlockState?> = EnumMap(RelativeSide::class.java)
+
+	fun getFacadeForSide(side: EnumFacing): IBlockState {
+		val front = world.getBlockState(pos).getValue(BlockFacade.FRONT)
+		return facades[RelativeSide.forFacing(front, side)] ?: base
+	}
 
 	override fun onLoad() {
 		if (world.isRemote) {
@@ -35,7 +41,7 @@ class TileEntityFacade: BaseTileEntity() {
 	override fun readFromNBT(tag: NBTTagCompound) {
 		base = Block.getStateById(tag.getInteger("base"))
 		facades.clear()
-		EnumFacing.VALUES.forEach {
+		RelativeSide.values().forEach {
 			val id = tag.getInteger(it.name.toLowerCase())
 			facades[it] = if (id <= 0) null else Block.getStateById(id)
 		}

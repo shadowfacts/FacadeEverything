@@ -19,10 +19,12 @@ import net.minecraftforge.items.ItemStackHandler
 import net.shadowfacts.facadeeverything.FacadeEverything
 import net.shadowfacts.facadeeverything.MOD_ID
 import net.shadowfacts.facadeeverything.block.ModBlocks
+import net.shadowfacts.facadeeverything.block.facade.BlockFacade
 import net.shadowfacts.facadeeverything.gui.GUIHandler
 import net.shadowfacts.facadeeverything.item.ItemBase
 import net.shadowfacts.facadeeverything.item.ItemFacade
 import net.shadowfacts.facadeeverything.util.getFacadeState
+import net.shadowfacts.shadowmc.util.RelativeSide
 
 /**
  * @author shadowfacts
@@ -35,7 +37,7 @@ class ItemApplicator: ItemBase("applicator") {
 		}
 	}
 
-	fun createFacade(world: World, pos: BlockPos): Boolean {
+	fun createFacade(world: World, pos: BlockPos, facing: EnumFacing): Boolean {
 		if (world.getTileEntity(pos) !== null) {
 			return false
 		}
@@ -46,23 +48,25 @@ class ItemApplicator: ItemBase("applicator") {
 			return false
 		}
 
-		world.setBlockState(pos, ModBlocks.facade.defaultState)
+		world.setBlockState(pos, ModBlocks.facade.defaultState.withProperty(BlockFacade.FRONT, if (!EnumFacing.Plane.HORIZONTAL.apply(facing)) EnumFacing.NORTH else facing))
 		val tile = ModBlocks.facade.getTileEntity(world, pos)
 		tile.base = state
 		return true
 	}
 
 	fun applyFacade(world: World, pos: BlockPos, side: EnumFacing, player: EntityPlayer, stack: ItemStack): EnumActionResult {
+		val front = world.getBlockState(pos).getValue(BlockFacade.FRONT)
 		val tile = ModBlocks.facade.getTileEntity(world, pos)
 
 		val new = stack.getItemHandler().getStackInSlot(0).getFacadeState()
-		val current = tile.facades[side]
+		val relative = RelativeSide.forFacing(front, side)
+		val current = tile.facades[relative]
 		if (current != null) {
 			if (current == new) return EnumActionResult.FAIL
 			else player.inventory.addItemStackToInventory(ItemFacade.forState(current))
 		}
 		stack.getItemHandler().extractItem(0, 1, false)
-		tile.facades[side] = new
+		tile.facades[relative] = new
 		tile.markDirty()
 		world.markBlockRangeForRenderUpdate(pos, pos)
 
@@ -70,12 +74,14 @@ class ItemApplicator: ItemBase("applicator") {
 	}
 
 	fun removeFacade(world: World, pos: BlockPos, side: EnumFacing, player: EntityPlayer, stack: ItemStack): EnumActionResult {
+		val front = world.getBlockState(pos).getValue(BlockFacade.FRONT)
 		val tile = ModBlocks.facade.getTileEntity(world, pos)
 
-		val current = tile.facades[side]
+		val relative = RelativeSide.forFacing(front, side)
+		val current = tile.facades[relative]
 		if (current != null) {
 			player.inventory.addItemStackToInventory(ItemFacade.forState(current))
-			tile.facades[side] = null
+			tile.facades[relative] = null
 
 			if (tile.facades.all { it.value == null }) {
 				world.setBlockState(pos, tile.base)
@@ -95,7 +101,7 @@ class ItemApplicator: ItemBase("applicator") {
 			val stack = player.getHeldItem(hand)
 
 			if (!stack.getItemHandler().getStackInSlot(0).isEmpty) {
-				if (state.block !== ModBlocks.facade && !createFacade(world, pos)) {
+				if (state.block !== ModBlocks.facade && !createFacade(world, pos, facing)) {
 					return EnumActionResult.FAIL
 				}
 				return applyFacade(world, pos, facing, player, stack)

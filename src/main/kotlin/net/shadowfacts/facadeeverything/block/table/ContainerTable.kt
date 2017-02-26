@@ -2,11 +2,11 @@ package net.shadowfacts.facadeeverything.block.table
 
 import net.minecraft.entity.player.InventoryPlayer
 import net.minecraft.inventory.Slot
-import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.items.SlotItemHandler
 import net.shadowfacts.shadowmc.inventory.ContainerBase
+import net.shadowfacts.shadowmc.util.RelativeSide
 
 /**
  * @author shadowfacts
@@ -15,12 +15,12 @@ class ContainerTable(pos: BlockPos, playerInv: InventoryPlayer, table: TileEntit
 
 	init {
 		addSlotToContainer(SlotTable(table, table.input, 0, 48, 35))
-		addSlotToContainer(SlotTable(table, table.facades, EnumFacing.DOWN.ordinal, 48, 62))
-		addSlotToContainer(SlotTable(table, table.facades, EnumFacing.UP.ordinal, 48, 8))
-		addSlotToContainer(SlotTable(table, table.facades, EnumFacing.NORTH.ordinal, 21, 26))
-		addSlotToContainer(SlotTable(table, table.facades, EnumFacing.SOUTH.ordinal, 75, 44))
-		addSlotToContainer(SlotTable(table, table.facades, EnumFacing.WEST.ordinal, 21, 44))
-		addSlotToContainer(SlotTable(table, table.facades, EnumFacing.EAST.ordinal, 75, 26))
+		addSlotToContainer(SlotTable(table, table.facades, RelativeSide.BOTTOM.ordinal, 48, 62))
+		addSlotToContainer(SlotTable(table, table.facades, RelativeSide.TOP.ordinal, 48, 8))
+		addSlotToContainer(SlotTable(table, table.facades, RelativeSide.FRONT.ordinal, 21, 26))
+		addSlotToContainer(SlotTable(table, table.facades, RelativeSide.BACK.ordinal, 75, 44))
+		addSlotToContainer(SlotTable(table, table.facades, RelativeSide.RIGHT.ordinal, 21, 44))
+		addSlotToContainer(SlotTable(table, table.facades, RelativeSide.LEFT.ordinal, 75, 26))
 
 		addSlotToContainer(SlotTable(table, table.output, 0, 132, 34))
 

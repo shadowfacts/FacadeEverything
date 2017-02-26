@@ -11,6 +11,7 @@ import net.shadowfacts.facadeeverything.util.*
 import net.shadowfacts.forgelin.extensions.forEach
 import net.shadowfacts.shadowmc.capability.CapHolder
 import net.shadowfacts.shadowmc.tileentity.BaseTileEntity
+import net.shadowfacts.shadowmc.util.RelativeSide
 
 /**
  * @author shadowfacts
@@ -103,7 +104,7 @@ class TileEntityTable: BaseTileEntity() {
 		if (base != null && hasAtLeastOneFacade()) {
 			stack = ItemStack(ModBlocks.facade)
 			stack.base = base
-			EnumFacing.VALUES.forEachIndexed { i, side ->
+			RelativeSide.values().forEachIndexed { i, side ->
 				stack.setStateForSide(side, facades.getStackInSlot(i).getFacadeState())
 			}
 		} else {

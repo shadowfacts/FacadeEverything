@@ -17,7 +17,8 @@ import net.minecraft.world.World
 import net.shadowfacts.facadeeverything.model.BakedModelBase
 import net.shadowfacts.facadeeverything.model.QuadCache
 import net.shadowfacts.facadeeverything.util.base
-import net.shadowfacts.facadeeverything.util.sides
+import net.shadowfacts.facadeeverything.util.getStateForSide
+import net.shadowfacts.shadowmc.util.RelativeSide
 import java.util.concurrent.TimeUnit
 
 /**
@@ -56,7 +57,11 @@ class BakedModelFacadeBlockItem(val base: IBlockState? = null, val facades: Arra
 
 	object Overrides: ItemOverrideList(listOf()) {
 		override fun handleItemState(originalModel: IBakedModel, stack: ItemStack, world: World?, entity: EntityLivingBase?): IBakedModel {
-			return Cache[stack.base, stack.sides.values.toTypedArray()]
+			val arr = kotlin.arrayOfNulls<IBlockState>(6)
+			RelativeSide.values().forEach {
+				arr[it.forFront(EnumFacing.NORTH).ordinal] = stack.getStateForSide(it)
+			}
+			return Cache[stack.base, arr]
 		}
 	}
 
