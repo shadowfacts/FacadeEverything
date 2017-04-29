@@ -18,7 +18,7 @@ import net.shadowfacts.forgelin.extensions.forEachIndexed
 /**
  * @author shadowfacts
  */
-object RecipePaintedFacade: IRecipe {
+object RecipePaintFacade: IRecipe {
 
 	override fun matches(inv: InventoryCrafting, world: World?): Boolean {
 		var blanks = 0

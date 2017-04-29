@@ -24,7 +24,8 @@ import net.shadowfacts.facadeeverything.item.ModItems
 import net.shadowfacts.facadeeverything.model.FEModelLoader
 import net.shadowfacts.facadeeverything.network.PacketRequestUpdate
 import net.shadowfacts.facadeeverything.network.PacketUpdate
-import net.shadowfacts.facadeeverything.recipe.RecipePaintedFacade
+import net.shadowfacts.facadeeverything.recipe.RecipePaintFacade
+import net.shadowfacts.facadeeverything.recipe.RecipeUnpaintFacade
 import net.shadowfacts.facadeeverything.util.CommandStateId
 
 /**
@@ -47,7 +48,8 @@ object FacadeEverything {
 		blocks.init()
 		items.init()
 
-		GameRegistry.addRecipe(RecipePaintedFacade)
+		GameRegistry.addRecipe(RecipePaintFacade)
+		GameRegistry.addRecipe(RecipeUnpaintFacade)
 		GameRegistry.addShapedRecipe(ItemStack(blocks.assembly), " F ", "FCF", " F ", 'F', items.facade, 'C', Blocks.CRAFTING_TABLE)
 		GameRegistry.addRecipe(ShapedOreRecipe(items.applicator, "FF ", "FS ", "  S", 'F', items.facade, 'S', "stickWood"))
 
