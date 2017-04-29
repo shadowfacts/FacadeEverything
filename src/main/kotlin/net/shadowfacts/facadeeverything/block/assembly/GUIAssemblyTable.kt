@@ -1,4 +1,4 @@
-package net.shadowfacts.facadeeverything.block.table
+package net.shadowfacts.facadeeverything.block.assembly
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.inventory.GuiContainer
@@ -12,12 +12,12 @@ import net.shadowfacts.shadowmc.ui.dsl.container
 /**
  * @author shadowfacts
  */
-object GUITable {
+object GUIAssemblyTable {
 
 	private val BG = ResourceLocation(MOD_ID, "textures/gui/assembly_table.png")
 	private val PREVIEW_BG = ResourceLocation(MOD_ID, "textures/gui/preview.png")
 
-	fun create(container: Container, table: TileEntityTable): GuiContainer {
+	fun create(container: Container, table: TileEntityAssemblyTable): GuiContainer {
 		return container(container) {
 			fixed {
 				id = "root"
@@ -38,7 +38,7 @@ object GUITable {
 
 					label {
 						id = "table"
-						text = ModBlocks.table.localizedName
+						text = ModBlocks.assembly.localizedName
 					}
 
 					label {

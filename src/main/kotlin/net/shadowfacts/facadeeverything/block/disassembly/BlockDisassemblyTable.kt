@@ -1,4 +1,4 @@
-package net.shadowfacts.facadeeverything.block.table
+package net.shadowfacts.facadeeverything.block.disassembly
 
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
@@ -15,7 +15,7 @@ import net.shadowfacts.shadowmc.block.BlockTE
 /**
  * @author shadowfacts
  */
-class BlockTable: BlockTE<TileEntityTable>(Material.WOOD, "table") {
+class BlockDisassemblyTable: BlockTE<TileEntityDisassemblyTable>(Material.WOOD, "disassembly_table") {
 
 	init {
 		unlocalizedName = registryName.toString()
@@ -23,12 +23,12 @@ class BlockTable: BlockTE<TileEntityTable>(Material.WOOD, "table") {
 	}
 
 	override fun onBlockActivated(world: World, pos: BlockPos, state: IBlockState, player: EntityPlayer, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): Boolean {
-		player.openGui(FacadeEverything, GUIHandler.ASSEMBLY_TABLE, world, pos.x, pos.y, pos.z)
+		player.openGui(FacadeEverything, GUIHandler.DISASSEMBLY_TABLE, world, pos.x, pos.y, pos.z)
 		return true
 	}
 
-	override fun getTileEntityClass(): Class<TileEntityTable> {
-		return TileEntityTable::class.java
+	override fun getTileEntityClass(): Class<TileEntityDisassemblyTable> {
+		return TileEntityDisassemblyTable::class.java
 	}
 
 }

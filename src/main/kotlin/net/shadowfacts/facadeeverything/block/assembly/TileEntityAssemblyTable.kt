@@ -1,4 +1,4 @@
-package net.shadowfacts.facadeeverything.block.table
+package net.shadowfacts.facadeeverything.block.assembly
 
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
@@ -16,7 +16,7 @@ import net.shadowfacts.shadowmc.util.RelativeSide
 /**
  * @author shadowfacts
  */
-class TileEntityTable: BaseTileEntity() {
+class TileEntityAssemblyTable: BaseTileEntity() {
 
 	@CapHolder(capabilities = arrayOf(IItemHandler::class), sides = arrayOf(EnumFacing.UP))
 	val input = object: ItemStackHandler(1) {
@@ -47,7 +47,6 @@ class TileEntityTable: BaseTileEntity() {
 
 	@CapHolder(capabilities = arrayOf(IItemHandler::class), sides = arrayOf(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST))
 	val facades = object: ItemStackHandler(6) {
-
 		override fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean): ItemStack {
 			val res = if (stack.item !is ItemFacade || stack.getFacadeState() === null) {
 				stack

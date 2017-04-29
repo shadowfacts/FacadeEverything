@@ -21,7 +21,7 @@ import net.minecraftforge.common.property.IExtendedBlockState
 import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.block.facade.BlockFacade
 import net.shadowfacts.facadeeverything.block.facade.TileEntityFacade
-import net.shadowfacts.facadeeverything.block.table.TileEntityTable
+import net.shadowfacts.facadeeverything.block.assembly.TileEntityAssemblyTable
 import net.shadowfacts.facadeeverything.model.block.BakedModelFacadeBlock
 import net.shadowfacts.facadeeverything.util.base
 import net.shadowfacts.facadeeverything.util.getStateForSide
@@ -40,7 +40,7 @@ import org.lwjgl.util.vector.Vector3f
  *
  * @author shadowfacts
  */
-class UIFacadePreview(val table: TileEntityTable, id: String, vararg classes: String): UIElementBase("facade-preview", id, *classes), UIMouseInteractable, ITickable {
+class UIFacadePreview(val table: TileEntityAssemblyTable, id: String, vararg classes: String): UIElementBase("facade-preview", id, *classes), UIMouseInteractable, ITickable {
 
 	companion object {
 		private val buf = BufferUtils.createFloatBuffer(16)

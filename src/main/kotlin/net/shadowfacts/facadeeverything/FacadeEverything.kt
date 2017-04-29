@@ -48,7 +48,7 @@ object FacadeEverything {
 		items.init()
 
 		GameRegistry.addRecipe(RecipePaintedFacade)
-		GameRegistry.addShapedRecipe(ItemStack(blocks.table), " F ", "FCF", " F ", 'F', items.facade, 'C', Blocks.CRAFTING_TABLE)
+		GameRegistry.addShapedRecipe(ItemStack(blocks.assembly), " F ", "FCF", " F ", 'F', items.facade, 'C', Blocks.CRAFTING_TABLE)
 		GameRegistry.addRecipe(ShapedOreRecipe(items.applicator, "FF ", "FS ", "  S", 'F', items.facade, 'S', "stickWood"))
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, GUIHandler)

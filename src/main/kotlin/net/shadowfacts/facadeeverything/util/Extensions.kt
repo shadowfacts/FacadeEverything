@@ -19,6 +19,7 @@ import java.util.*
 private fun ItemStack.initDefaults() {
 	tagCompound = NBTTagCompound().apply {
 		setInteger("base", Block.getStateId(Blocks.STONE.defaultState))
+		setTag("baseStack", ItemStack(Blocks.STONE).writeToNBT(NBTTagCompound()))
 		EnumFacing.VALUES.forEach {
 			setInteger(it.name.toLowerCase(), -1)
 		}

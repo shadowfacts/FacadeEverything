@@ -4,7 +4,8 @@ tile.facadeeverything:facade_block.specific.name=%s Facade Block
 tile.facadeeverything:facade_block.tooltip=%s: %s
 tile.facadeeverything:facade_block.tooltip.sneak=Sneak for Facades
 
-tile.facadeeverything:table.name=Assembly Table
+tile.facadeeverything:assembly_table.name=Assembly Table
+tile.facadeeverything:disassembly_table.name=Disassembly Table
 
 # Items
 item.facadeeverything:facade.name=%s Facade
