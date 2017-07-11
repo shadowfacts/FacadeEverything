@@ -43,9 +43,7 @@ object RecipePaintFacade: RecipeBase() {
 		return width * height >= 2
 	}
 
-	override fun getRecipeOutput(): ItemStack {
-		return ItemStack(ModItems.facade)
-	}
+	override fun getRecipeOutput() = ItemStack(ModItems.facade)
 
 	override fun getRemainingItems(inv: InventoryCrafting): NonNullList<ItemStack> {
 		val list = NonNullList.withSize(inv.sizeInventory, ItemStack.EMPTY)

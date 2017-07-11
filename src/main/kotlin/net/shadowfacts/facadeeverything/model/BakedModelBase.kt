@@ -33,26 +33,13 @@ abstract class BakedModelBase: IBakedModel {
 
 	private val transforms: MutableMap<ItemCameraTransforms.TransformType, TRSRTransformation?> = EnumMap(ItemCameraTransforms.TransformType::class.java)
 
-	override fun isAmbientOcclusion(): Boolean {
-		return true
-	}
+	override fun isAmbientOcclusion() = true
 
-	override fun isGui3d(): Boolean {
-		return true
-	}
+	override fun isGui3d() = true
 
-	override fun isBuiltInRenderer(): Boolean {
-		return false
-	}
+	override fun isBuiltInRenderer() = false
 
-	@Deprecated("")
-	override fun getItemCameraTransforms(): ItemCameraTransforms {
-		return ItemCameraTransforms.DEFAULT
-	}
-
-	override fun getOverrides(): ItemOverrideList {
-		return ItemOverrideList.NONE
-	}
+	override fun getOverrides(): ItemOverrideList = ItemOverrideList.NONE
 
 	override fun handlePerspective(type: ItemCameraTransforms.TransformType): Pair<out IBakedModel, Matrix4f> {
 		return ImmutablePair.of(this, (transforms[type] ?: getTransform(0f, 0f, 0f, 0f, 0f, 0f, 1f)).matrix)

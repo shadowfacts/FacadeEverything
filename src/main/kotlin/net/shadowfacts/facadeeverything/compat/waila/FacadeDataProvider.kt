@@ -21,7 +21,7 @@ import net.shadowfacts.shadowmc.util.RelativeSide
  */
 object FacadeDataProvider: IWailaDataProvider {
 
-	override fun getWailaStack(accessor: IWailaDataAccessor, config: IWailaConfigHandler?): ItemStack {
+	override fun getWailaStack(accessor: IWailaDataAccessor, config: IWailaConfigHandler): ItemStack {
 		if (FEConfig.inWorldCamoTooltip) {
 			val tile = accessor.tileEntity as TileEntityFacade
 			val state = tile.getFacadeForSide(accessor.side)
@@ -31,11 +31,9 @@ object FacadeDataProvider: IWailaDataProvider {
 		return accessor.block.getPickBlock(accessor.blockState, accessor.mop, accessor.world, accessor.position, accessor.player)
 	}
 
-	override fun getWailaHead(itemStack: ItemStack?, currenttip: MutableList<String>, accessor: IWailaDataAccessor?, config: IWailaConfigHandler?): MutableList<String> {
-		return currenttip
-	}
+	override fun getWailaHead(stack: ItemStack, currenttip: MutableList<String>, accessor: IWailaDataAccessor, config: IWailaConfigHandler) = currenttip
 
-	override fun getWailaBody(itemStack: ItemStack?, currenttip: MutableList<String>, accessor: IWailaDataAccessor, config: IWailaConfigHandler?): MutableList<String> {
+	override fun getWailaBody(stack: ItemStack, currenttip: MutableList<String>, accessor: IWailaDataAccessor, config: IWailaConfigHandler?): MutableList<String> {
 		if (!FEConfig.inWorldCamoTooltip) {
 			if (accessor.player.isSneaking) {
 				val tile = accessor.tileEntity as TileEntityFacade
@@ -52,12 +50,8 @@ object FacadeDataProvider: IWailaDataProvider {
 		return currenttip
 	}
 
-	override fun getWailaTail(itemStack: ItemStack?, currenttip: MutableList<String>, accessor: IWailaDataAccessor?, config: IWailaConfigHandler?): MutableList<String> {
-		return currenttip
-	}
+	override fun getWailaTail(stack: ItemStack, currenttip: MutableList<String>, accessor: IWailaDataAccessor, config: IWailaConfigHandler) = currenttip
 
-	override fun getNBTData(player: EntityPlayerMP?, te: TileEntity?, tag: NBTTagCompound, world: World?, pos: BlockPos?): NBTTagCompound {
-		return tag
-	}
+	override fun getNBTData(player: EntityPlayerMP, te: TileEntity?, tag: NBTTagCompound, world: World, pos: BlockPos) = tag
 
 }

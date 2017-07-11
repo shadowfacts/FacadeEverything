@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
@@ -50,12 +51,14 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 		defaultState = blockState.baseState.withProperty(FRONT, EnumFacing.NORTH)
 	}
 
-	override fun createItemBlock(): Item {
-		return ItemBlockFacade()
-	}
+	override fun createItemBlock() = ItemBlockFacade()
 
 	fun getStack(world: World, pos: BlockPos): ItemStack {
 		val tile = getTileEntity(world, pos)
+		return getStack(tile)
+	}
+
+	fun getStack(tile: TileEntityFacade): ItemStack {
 		val stack = ItemStack(this)
 		stack.base = tile.base
 		RelativeSide.values().forEach {
@@ -64,15 +67,9 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 		return stack
 	}
 
-	override fun getDrops(world: IBlockAccess?, pos: BlockPos?, state: IBlockState?, fortune: Int): MutableList<ItemStack> {
-		return mutableListOf()
-	}
-
-	override fun breakBlock(world: World, pos: BlockPos, state: IBlockState) {
-		if (getTileEntity(world, pos).facades.values.any { it != null }) {
-			Block.spawnAsEntity(world, pos, getStack(world, pos))
-		}
-		super.breakBlock(world, pos, state)
+	override fun harvestBlock(world: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity?, stack: ItemStack) {
+		val tile = te as TileEntityFacade
+		Block.spawnAsEntity(world, pos, getStack(tile))
 	}
 
 	override fun getPickBlock(state: IBlockState, target: RayTraceResult, world: World, pos: BlockPos, player: EntityPlayer): ItemStack {
@@ -129,22 +126,14 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 		te.markDirty()
 	}
 
-	override fun canRenderInLayer(state: IBlockState, layer: BlockRenderLayer): Boolean {
-		return true
-	}
+	override fun canRenderInLayer(state: IBlockState, layer: BlockRenderLayer) = true
 
 	@Deprecated("")
-	override fun isOpaqueCube(state: IBlockState?): Boolean {
-		return false
-	}
+	override fun isOpaqueCube(state: IBlockState) = false
 
 	@Deprecated("")
-	override fun isFullCube(state: IBlockState?): Boolean {
-		return false
-	}
+	override fun isFullCube(state: IBlockState) = false
 
-	override fun getTileEntityClass(): Class<TileEntityFacade> {
-		return TileEntityFacade::class.java
-	}
+	override fun getTileEntityClass() = TileEntityFacade::class.java
 
 }

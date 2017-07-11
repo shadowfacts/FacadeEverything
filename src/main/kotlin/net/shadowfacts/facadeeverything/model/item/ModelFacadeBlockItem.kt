@@ -17,16 +17,10 @@ object ModelFacadeBlockItem: IModel {
 		return BakedModelFacadeBlockItem()
 	}
 
-	override fun getTextures(): Collection<ResourceLocation> {
-		return listOf()
-	}
+	override fun getTextures(): Collection<ResourceLocation> = listOf()
 
-	override fun getDefaultState(): IModelState {
-		return IModelState { Optional.empty()}
-	}
+	override fun getDefaultState() = IModelState { Optional.empty()}
 
-	override fun getDependencies(): Collection<ResourceLocation> {
-		return listOf()
-	}
+	override fun getDependencies(): Collection<ResourceLocation> = listOf()
 
 }

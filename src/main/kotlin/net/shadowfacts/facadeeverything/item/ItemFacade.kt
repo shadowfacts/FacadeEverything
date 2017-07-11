@@ -7,6 +7,7 @@ import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.shadowfacts.facadeeverything.util.getFacadeState
+import net.shadowfacts.shadowmc.item.ItemBase
 
 /**
  * @author shadowfacts

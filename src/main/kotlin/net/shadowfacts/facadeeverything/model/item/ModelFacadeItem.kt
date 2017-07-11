@@ -18,16 +18,10 @@ object ModelFacadeItem: IModel {
 		return BakedModelFacadeItem(format, bakedTextureGetter.apply(ResourceLocation(MOD_ID, "misc/blank")))
 	}
 
-	override fun getTextures(): Collection<ResourceLocation> {
-		return listOf(ResourceLocation(MOD_ID, "misc/blank"))
-	}
+	override fun getTextures() = listOf(ResourceLocation(MOD_ID, "misc/blank"))
 
-	override fun getDefaultState(): IModelState {
-		return IModelState { Optional.empty() }
-	}
+	override fun getDefaultState() = IModelState { Optional.empty() }
 
-	override fun getDependencies(): Collection<ResourceLocation> {
-		return listOf()
-	}
+	override fun getDependencies(): Collection<ResourceLocation> = listOf()
 
 }

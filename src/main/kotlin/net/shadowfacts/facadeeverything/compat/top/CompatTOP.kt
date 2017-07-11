@@ -12,10 +12,10 @@ object CompatTOP {
 		FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "net.shadowfacts.facadeeverything.compat.top.CompatTOP\$Handler")
 	}
 
-	class Handler: com.google.common.base.Function<ITheOneProbe, Void> {
+	class Handler: java.util.function.Function<ITheOneProbe, Void?> {
 
-		override fun apply(top: ITheOneProbe?): Void? {
-			top!!.registerBlockDisplayOverride(FacadeBlockDisplayOverride)
+		override fun apply(top: ITheOneProbe): Void? {
+			top.registerBlockDisplayOverride(FacadeBlockDisplayOverride)
 			return null
 		}
 

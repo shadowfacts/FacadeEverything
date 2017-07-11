@@ -47,13 +47,9 @@ class BakedModelFacadeBlockItem(val base: IBlockState? = null, val facades: Arra
 		}
 	}
 
-	override fun getOverrides(): ItemOverrideList {
-		return Overrides
-	}
+	override fun getOverrides() = Overrides
 
-	override fun getParticleTexture(): TextureAtlasSprite {
-		return Minecraft.getMinecraft().textureMapBlocks.missingSprite
-	}
+	override fun getParticleTexture(): TextureAtlasSprite = Minecraft.getMinecraft().textureMapBlocks.missingSprite
 
 	object Overrides: ItemOverrideList(listOf()) {
 		override fun handleItemState(originalModel: IBakedModel, stack: ItemStack, world: World?, entity: EntityLivingBase?): IBakedModel {

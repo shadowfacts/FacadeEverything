@@ -72,13 +72,9 @@ class BakedModelFacadeItem(val format: VertexFormat, val fallbackSprite: Texture
 		return ImmutableList.of()
 	}
 
-	override fun getOverrides(): ItemOverrideList {
-		return Overrides
-	}
+	override fun getOverrides() = Overrides
 
-	override fun getParticleTexture(): TextureAtlasSprite {
-		return fallbackSprite
-	}
+	override fun getParticleTexture() = fallbackSprite
 
 	object Overrides: ItemOverrideList(listOf()) {
 		override fun handleItemState(originalModel: IBakedModel, stack: ItemStack, world: World?, entity: EntityLivingBase?): IBakedModel {

@@ -27,8 +27,6 @@ class BlockDisassemblyTable: BlockTE<TileEntityDisassemblyTable>(Material.WOOD, 
 		return true
 	}
 
-	override fun getTileEntityClass(): Class<TileEntityDisassemblyTable> {
-		return TileEntityDisassemblyTable::class.java
-	}
+	override fun getTileEntityClass() = TileEntityDisassemblyTable::class.java
 
 }

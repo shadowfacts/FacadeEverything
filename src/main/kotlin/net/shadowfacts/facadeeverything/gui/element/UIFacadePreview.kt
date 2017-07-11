@@ -207,8 +207,8 @@ class UIFacadePreview(val table: TileEntityAssemblyTable, id: String, vararg cla
 
 	private object DummyWorld: IBlockAccess {
 
-		var pos = BlockPos.ORIGIN
-		var state = Blocks.STONE.defaultState
+		var pos: BlockPos = BlockPos.ORIGIN
+		var state: IBlockState = Blocks.STONE.defaultState
 		var tile: TileEntity? = null
 
 		fun update(pos: BlockPos, state: IBlockState, tile: TileEntity?): DummyWorld {

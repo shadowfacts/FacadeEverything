@@ -49,29 +49,14 @@ object BakedModelFacadeBlock: IBakedModel {
 		}
 	}
 
-	override fun isBuiltInRenderer(): Boolean {
-		return false
-	}
+	override fun isBuiltInRenderer() = false
 
-	override fun isAmbientOcclusion(): Boolean {
-		return false
-	}
+	override fun isAmbientOcclusion() = false
 
-	override fun isGui3d(): Boolean {
-		return false
-	}
+	override fun isGui3d() = false
 
-	override fun getOverrides(): ItemOverrideList {
-		return ItemOverrideList.NONE
-	}
+	override fun getOverrides(): ItemOverrideList = ItemOverrideList.NONE
 
-	override fun getParticleTexture(): TextureAtlasSprite {
-		return Minecraft.getMinecraft().textureMapBlocks.missingSprite
-	}
-
-	@Deprecated("")
-	override fun getItemCameraTransforms(): ItemCameraTransforms {
-		return ItemCameraTransforms.DEFAULT
-	}
+	override fun getParticleTexture(): TextureAtlasSprite = Minecraft.getMinecraft().textureMapBlocks.missingSprite
 
 }

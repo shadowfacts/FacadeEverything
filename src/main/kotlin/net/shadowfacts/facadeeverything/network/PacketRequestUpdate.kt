@@ -29,11 +29,7 @@ class PacketRequestUpdate(var dimension: Int = 0, var pos: BlockPos = BlockPos.O
 
 		override fun onMessage(message: PacketRequestUpdate, ctx: MessageContext): PacketUpdate? {
 			val tile = FMLCommonHandler.instance().minecraftServerInstance.getWorld(message.dimension).getTileEntity(message.pos)
-			if (tile != null) {
-				return PacketUpdate(tile)
-			} else {
-				return null
-			}
+			return if (tile != null) PacketUpdate(tile) else null
 		}
 
 	}

@@ -26,17 +26,11 @@ object RecipeUnpaintFacade: RecipeBase() {
 		return facades == 1 && others == 0
 	}
 
-	override fun getCraftingResult(inv: InventoryCrafting): ItemStack {
-		return recipeOutput
-	}
+	override fun getCraftingResult(inv: InventoryCrafting) = recipeOutput
 
-	override fun canFit(width: Int, height: Int): Boolean {
-		return true
-	}
+	override fun canFit(width: Int, height: Int) = true
 
-	override fun getRecipeOutput(): ItemStack {
-		return ItemStack(ModItems.facade)
-	}
+	override fun getRecipeOutput() = ItemStack(ModItems.facade)
 
 	override fun getRemainingItems(inv: InventoryCrafting): NonNullList<ItemStack> {
 		return NonNullList.withSize(inv.sizeInventory, ItemStack.EMPTY)

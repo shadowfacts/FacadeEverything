@@ -12,7 +12,6 @@ import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.common.capabilities.ICapabilitySerializable
 import net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
 import net.minecraftforge.items.IItemHandler
@@ -22,9 +21,9 @@ import net.shadowfacts.facadeeverything.MOD_ID
 import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.block.facade.BlockFacade
 import net.shadowfacts.facadeeverything.gui.GUIHandler
-import net.shadowfacts.facadeeverything.item.ItemBase
 import net.shadowfacts.facadeeverything.item.ItemFacade
 import net.shadowfacts.facadeeverything.util.getFacadeState
+import net.shadowfacts.shadowmc.item.ItemBase
 import net.shadowfacts.shadowmc.util.RelativeSide
 
 /**
@@ -134,9 +133,7 @@ class ItemApplicator: ItemBase("applicator") {
 		}
 	}
 
-	override fun initCapabilities(stack: ItemStack, nbt: NBTTagCompound?): ICapabilityProvider? {
-		return ApplicatorCapProvider()
-	}
+	override fun initCapabilities(stack: ItemStack, nbt: NBTTagCompound?) = ApplicatorCapProvider()
 
 	class ApplicatorCapProvider: ICapabilitySerializable<NBTTagCompound> {
 

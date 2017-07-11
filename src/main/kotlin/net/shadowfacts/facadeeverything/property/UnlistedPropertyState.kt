@@ -8,20 +8,14 @@ import net.minecraftforge.common.property.IUnlistedProperty
  */
 class UnlistedPropertyState(val propName: String): IUnlistedProperty<IBlockState> {
 
-	override fun getName(): String {
-		return propName
+	override fun getName() = propName
+
+	override fun valueToString(value: IBlockState): String {
+		return value.toString()
 	}
 
-	override fun valueToString(value: IBlockState?): String {
-		return value?.toString() ?: "null"
-	}
+	override fun isValid(value: IBlockState) = true
 
-	override fun isValid(value: IBlockState?): Boolean {
-		return true
-	}
-
-	override fun getType(): Class<IBlockState> {
-		return IBlockState::class.java
-	}
+	override fun getType() = IBlockState::class.java
 
 }
