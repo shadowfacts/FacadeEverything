@@ -54,7 +54,7 @@ class TileEntityDisassemblyTable: BaseTileEntity() {
 
 		if (!output.insertForce(0, base, true).isEmpty) return
 
-		val facades = RelativeSide.values().mapIndexed { i: Int, it: RelativeSide ->
+		val facades = RelativeSide.values().map {
 			val facade = input.getStateForSide(it)
 			if (facade == null) null else ItemFacade.forState(facade)
 		}

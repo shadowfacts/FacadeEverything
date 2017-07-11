@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" F ",
+		"FCF",
+		" F "
+	],
+	"key": {
+		"F": {
+			"item": "facadeeverything:facade"
+		},
+		"C": {
+			"item": "minecraft:crafting_table"
+		}
+	},
+	"result": {
+		"item": "facadeeverything:assembly_table"
+	}
+}

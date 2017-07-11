@@ -1,11 +1,13 @@
 package net.shadowfacts.facadeeverything.block.facade
 
 import net.minecraft.client.resources.I18n
+import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemBlock
 import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.text.TextFormatting
+import net.minecraft.world.World
 import net.shadowfacts.facadeeverything.block.ModBlocks
 import net.shadowfacts.facadeeverything.util.base
 import net.shadowfacts.facadeeverything.util.getStateForSide
@@ -33,7 +35,7 @@ class ItemBlockFacade: ItemBlock(ModBlocks.facade) {
 		return I18n.format("$unlocalizedName.specific.name", stack.base.block.localizedName)
 	}
 
-	override fun addInformation(stack: ItemStack, player: EntityPlayer, tooltip: MutableList<String>, advanced: Boolean) {
+	override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
 		if (KeyboardHelper.isShiftPressed()) {
 			RelativeSide.values().forEach {
 				val state = stack.getStateForSide(it)

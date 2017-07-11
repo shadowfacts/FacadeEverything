@@ -35,13 +35,13 @@ class BakedModelFacadeItem(val format: VertexFormat, val fallbackSprite: Texture
 				VertexFormatElement.EnumUsage.POSITION -> builder.put(e, x.toFloat(), y.toFloat(), z.toFloat(), 1.0f)
 				VertexFormatElement.EnumUsage.COLOR -> builder.put(e, 1.0f, 1.0f, 1.0f, 1.0f)
 				VertexFormatElement.EnumUsage.UV -> {
-					if (format.getElement(e).index === 0) {
+					if (format.getElement(e).index == 0) {
 						u = sprite.getInterpolatedU(u.toDouble())
 						v = sprite.getInterpolatedV(v.toDouble())
 						builder.put(e, u, v, 0f, 1f)
 					}
 				}
-				VertexFormatElement.EnumUsage.NORMAL -> builder.put(e, normal.xCoord.toFloat(), normal.yCoord.toFloat(), normal.zCoord.toFloat(), 0f)
+				VertexFormatElement.EnumUsage.NORMAL -> builder.put(e, normal.x.toFloat(), normal.y.toFloat(), normal.z.toFloat(), 0f)
 				else -> builder.put(e)
 			}
 		}
@@ -52,10 +52,10 @@ class BakedModelFacadeItem(val format: VertexFormat, val fallbackSprite: Texture
 
 		val builder = UnpackedBakedQuad.Builder(format)
 		builder.setTexture(sprite)
-		putVertex(builder, normal, v1.xCoord, v1.yCoord, v1.zCoord, 0f, 0f, sprite)
-		putVertex(builder, normal, v2.xCoord, v2.yCoord, v2.zCoord, 0f, 16f, sprite)
-		putVertex(builder, normal, v3.xCoord, v3.yCoord, v3.zCoord, 16f, 16f, sprite)
-		putVertex(builder, normal, v4.xCoord, v4.yCoord, v4.zCoord, 16f, 0f, sprite)
+		putVertex(builder, normal, v1.x, v1.y, v1.z, 0f, 0f, sprite)
+		putVertex(builder, normal, v2.x, v2.y, v2.z, 0f, 16f, sprite)
+		putVertex(builder, normal, v3.x, v3.y, v3.z, 16f, 16f, sprite)
+		putVertex(builder, normal, v4.x, v4.y, v4.z, 16f, 0f, sprite)
 		return builder.build()
 	}
 

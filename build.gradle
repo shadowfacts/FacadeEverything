@@ -7,7 +7,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
+		classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
 	}
 }
@@ -47,7 +47,7 @@ repositories {
 	jcenter()
 	maven {
 		name "shadowfacts"
-		url "http://mvn.rx14.co.uk/shadowfacts/"
+		url "http://maven.shadowfacts.net/"
 	}
 	maven {
 		name "progwml6"
@@ -62,8 +62,8 @@ repositories {
 		url "http://maven.tterrag.com/"
 	}
 	maven {
-		name "K4"
-		url "http://maven.k-4u.nl"
+		name "Covers1624"
+		url "http://maven.covers1624.net"
 	}
 }
 
@@ -72,6 +72,5 @@ dependencies {
 	deobfCompile group: "net.shadowfacts", name: "Forgelin", version: forgelin_version
 	deobfCompile group: "mezz.jei", name: "jei_" + mc_version, version: jei_version
 	deobfCompile group: "mcp.mobius.waila", name: "Hwyla", version: hwyla_version
-	deobfCompile group: "mcjty.theoneprobe", name: "TheOneProbe", version: top_version
-	deobfCompile group: "com.github.mcjty", name: "compatlayer", version: mc_version + "-" + cl_version
+	deobfCompile group: "mcjty.theoneprobe", name: "TheOneProbe-" + mc_version, version: mc_version + "-" + top_version
 }

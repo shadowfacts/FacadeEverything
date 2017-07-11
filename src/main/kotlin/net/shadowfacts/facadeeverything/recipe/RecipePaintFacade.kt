@@ -2,7 +2,6 @@ package net.shadowfacts.facadeeverything.recipe
 
 import net.minecraft.inventory.InventoryCrafting
 import net.minecraft.item.ItemStack
-import net.minecraft.item.crafting.IRecipe
 import net.minecraft.util.NonNullList
 import net.minecraft.world.World
 import net.shadowfacts.facadeeverything.block.ModBlocks
@@ -14,11 +13,12 @@ import net.shadowfacts.facadeeverything.util.isItemBlock
 import net.shadowfacts.forgelin.extensions.first
 import net.shadowfacts.forgelin.extensions.forEach
 import net.shadowfacts.forgelin.extensions.forEachIndexed
+import net.shadowfacts.shadowmc.recipe.RecipeBase
 
 /**
  * @author shadowfacts
  */
-object RecipePaintFacade: IRecipe {
+object RecipePaintFacade: RecipeBase() {
 
 	override fun matches(inv: InventoryCrafting, world: World?): Boolean {
 		var blanks = 0
@@ -39,8 +39,8 @@ object RecipePaintFacade: IRecipe {
 		return ItemFacade.forState(block.getState()!!)
 	}
 
-	override fun getRecipeSize(): Int {
-		return 2
+	override fun canFit(width: Int, height: Int): Boolean {
+		return width * height >= 2
 	}
 
 	override fun getRecipeOutput(): ItemStack {

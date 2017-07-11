@@ -3,7 +3,6 @@ package net.shadowfacts.facadeeverything.model
 import net.minecraft.client.renderer.block.model.IBakedModel
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms
 import net.minecraft.client.renderer.block.model.ItemOverrideList
-import net.minecraftforge.client.model.IPerspectiveAwareModel
 import net.minecraftforge.common.model.TRSRTransformation
 import org.apache.commons.lang3.tuple.ImmutablePair
 import org.apache.commons.lang3.tuple.Pair
@@ -14,7 +13,7 @@ import javax.vecmath.Vector3f
 /**
  * @author shadowfacts
  */
-abstract class BakedModelBase: IBakedModel, IPerspectiveAwareModel {
+abstract class BakedModelBase: IBakedModel {
 
 	companion object {
 		private val flipX = TRSRTransformation(null, null, Vector3f(-1f, 1f, 1f), null)

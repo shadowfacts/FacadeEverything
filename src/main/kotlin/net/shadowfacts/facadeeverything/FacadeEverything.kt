@@ -1,15 +1,21 @@
 package net.shadowfacts.facadeeverything
 
+import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.item.crafting.IRecipe
+import net.minecraftforge.client.event.ModelRegistryEvent
 import net.minecraftforge.client.model.ModelLoaderRegistry
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.network.NetworkRegistry
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper
 import net.minecraftforge.fml.common.registry.GameRegistry
@@ -45,14 +51,6 @@ object FacadeEverything {
 	fun preInit(event: FMLPreInitializationEvent) {
 		FEConfig.init(event.modConfigurationDirectory)
 
-		blocks.init()
-		items.init()
-
-		GameRegistry.addRecipe(RecipePaintFacade)
-		GameRegistry.addRecipe(RecipeUnpaintFacade)
-		GameRegistry.addShapedRecipe(ItemStack(blocks.assembly), " F ", "FCF", " F ", 'F', items.facade, 'C', Blocks.CRAFTING_TABLE)
-		GameRegistry.addRecipe(ShapedOreRecipe(items.applicator, "FF ", "FS ", "  S", 'F', items.facade, 'S', "stickWood"))
-
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, GUIHandler)
 
 		network = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID)
@@ -77,6 +75,52 @@ object FacadeEverything {
 	@Mod.EventHandler
 	fun serverStarting(event: FMLServerStartingEvent) {
 		event.registerServerCommand(CommandStateId)
+	}
+
+	@Mod.EventBusSubscriber
+	object RegistrationHandler {
+
+		@JvmStatic
+		@SubscribeEvent
+		fun registerBlocks(event: RegistryEvent.Register<Block>) {
+			event.registry.registerAll(
+					blocks.facade,
+					blocks.assembly,
+					blocks.disassembly
+			)
+		}
+
+		@JvmStatic
+		@SubscribeEvent
+		fun registerItems(event: RegistryEvent.Register<Item>) {
+			event.registry.registerAll(
+					blocks.facade.createItemBlock(),
+					blocks.assembly.createItemBlock(),
+					blocks.disassembly.createItemBlock(),
+					items.facade,
+					items.applicator
+			)
+		}
+
+		@JvmStatic
+		@SubscribeEvent
+		fun registerRecipes(event: RegistryEvent.Register<IRecipe>) {
+			event.registry.registerAll(
+					RecipePaintFacade,
+					RecipeUnpaintFacade
+			)
+		}
+
+		@JvmStatic
+		@SubscribeEvent
+		fun registerModels(event: ModelRegistryEvent) {
+			blocks.facade.initItemModel()
+			blocks.assembly.initItemModel()
+			blocks.disassembly.initItemModel()
+			items.facade.initItemModel()
+			items.applicator.initItemModel()
+		}
+
 	}
 
 }

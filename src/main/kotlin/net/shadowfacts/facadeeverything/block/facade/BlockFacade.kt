@@ -50,6 +50,10 @@ class BlockFacade: BlockTE<TileEntityFacade>(Material.ROCK, "facade_block") {
 		defaultState = blockState.baseState.withProperty(FRONT, EnumFacing.NORTH)
 	}
 
+	override fun createItemBlock(): Item {
+		return ItemBlockFacade()
+	}
+
 	fun getStack(world: World, pos: BlockPos): ItemStack {
 		val tile = getTileEntity(world, pos)
 		val stack = ItemStack(this)

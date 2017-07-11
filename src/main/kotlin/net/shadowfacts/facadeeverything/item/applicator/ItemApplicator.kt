@@ -1,6 +1,7 @@
 package net.shadowfacts.facadeeverything.item.applicator
 
 import net.minecraft.client.resources.I18n
+import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
@@ -124,7 +125,7 @@ class ItemApplicator: ItemBase("applicator") {
 		return ActionResult(EnumActionResult.PASS, stack)
 	}
 
-	override fun addInformation(stack: ItemStack, player: EntityPlayer, tooltip: MutableList<String>, advanced: Boolean) {
+	override fun addInformation(stack: ItemStack, world: World?, tooltip: MutableList<String>, flag: ITooltipFlag) {
 		val facade = stack.getItemHandler().getStackInSlot(0)
 		if (facade.isEmpty) {
 			tooltip.add(I18n.format("$MOD_ID.applicator.none"))
